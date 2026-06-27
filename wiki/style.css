@@ -238,3 +238,27 @@ ul.clean li::before { content: "—"; position: absolute; left: 0; color: var(--
 .vm-placeholder .sub { font-size: .82rem; line-height: 1.7; max-width: 32em; }
 .vm-foot { padding: 12px 18px; font-family: var(--sans); font-size: .76rem; color: #b7ac9c; display:flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .vm-foot a { color: #e8b4a0; }
+
+/* =========================================================
+   Generated wiki: search, filters, browse grid, people
+   ========================================================= */
+.videorow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0 6px; }
+.vidnote { font-family:var(--sans); font-size:.74rem; color:var(--ink-soft); }
+.bigsearch { width:100%; font-family:var(--serif); font-size:1.08rem; padding:14px 18px;
+  border:2px solid var(--rule-dark); background:#fff; color:var(--ink); }
+.bigsearch:focus { outline:none; border-color:var(--accent); }
+.filters { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.filt { font-family:var(--sans); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+  padding:6px 12px; border:1px solid var(--rule); background:#fff; color:var(--ink); cursor:pointer; }
+.filt:hover { border-color:var(--ink); }
+.filt.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.filt .ct, .chip .ct { color:var(--accent); font-weight:700; margin-left:5px; }
+.filt.active .ct { color:#e8b4a0; }
+.grp { font-family:var(--sans); font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent-ink); margin:30px 0 0; border-bottom:1px solid var(--rule-dark); padding-bottom:8px; }
+.tile .meta { display:block; margin-top:10px; font-family:var(--sans); font-size:.68rem;
+  letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
+a.chip { cursor:pointer; }
+.chips.people .chip { text-transform:none; letter-spacing:0; font-size:.8rem; }
+mark { background:#fff2a8; color:var(--ink); padding:0 2px; }
+#results .grid, #browse .grid { margin-bottom:10px; }

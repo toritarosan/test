@@ -1,101 +1,43 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KOGANEI COUNCIL WIKI ｜ 小金井市議会ナレッジ</title>
+<html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOGANEI COUNCIL WIKI｜小金井市議会ナレッジ</title>
 <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="wrap">
+</head><body>
 
+<div class="wrap">
   <header class="masthead">
-    <div class="kicker">Auto-generated from official minutes</div>
+    <div class="kicker">Auto-generated from official-record archive</div>
     <a class="logo" href="index.html">Koganei&nbsp;Council&nbsp;Wiki</a>
     <div class="jp">小金井市議会 ナレッジ</div>
   </header>
   <hr class="rule-double">
-  <div class="dateline">
-    <span>令和7年 第3回定例会</span>
-    <span>第12号</span>
-    <span>2025.10.07</span>
-  </div>
+  <div class="dateline"><span>収録 62 会議</span><span>動画 148 本</span><span>原典：非公式会議録</span></div>
   <hr class="rule-thin">
+  <div class="ai-banner"><span><b>本誌は小金井市議会の非公式会議録（AI文字起こし）を再編集した検索Wikiです。</b>要約・抽出はAIによるもので誤りを含む場合があります。正確な内容は各ページの原典・録画でご確認ください。</span></div>
 
-  <div class="ai-banner">
-    <span><b>本誌はLLMが会議録から自動編集したデモです。</b>要約・論点整理はAIによるもので、誤りを含む場合があります。正確な内容は各記事末尾の「出典（原文）」をご確認ください。</span>
+  <div style="margin:22px 0">
+    <input id="q" class="bigsearch" placeholder="🔍 会議・議員・議案・キーワードで検索（例：補正予算、空調、岸田、虐待）" autocomplete="off">
+    <div class="filters"><button class="filt active" data-c="all">すべて</button><button class="filt" data-c="本会議">本会議 <span class="ct">16</span></button><button class="filt" data-c="常任委員会">常任委員会 <span class="ct">15</span></button><button class="filt" data-c="予算特別委員会">予算特別委員会 <span class="ct">9</span></button><button class="filt" data-c="議会運営委員会">議会運営委員会 <span class="ct">12</span></button><button class="filt" data-c="特別委員会・協議会">特別委員会・協議会 <span class="ct">10</span></button></div>
   </div>
 
-  <!-- FEATURE HERO -->
-  <section class="hero colorblock">
-    <div class="label">Feature ／ 特集</div>
-    <h1>市民協働再検討委員会、<br>「仕様書問題」を問う</h1>
-    <p class="lead">予算と食い違った委員定数・公募市民割合・委員謝礼。緊急質問が照らした事務執行の綻びと、止まったままの「市民まつり」。</p>
-    <div class="byline"><a href="topic-shimin-kyodo.html" style="color:#e8b4a0">記事を読む →</a> ／ 緊急質問 ・ 岸田正義 議員</div>
-    <div style="margin-top:16px">
-      <button class="watch" data-yt="DEMO" data-title="緊急質問：市民協働再検討委員会の仕様書問題">録画をポップアップで見る</button>
-    </div>
-  </section>
+  <div id="results"></div>
 
-  <!-- TOPICS -->
-  <h2 class="sec">議題 ／ Agenda</h2>
-  <div class="grid">
-    <a class="tile" href="topic-shimin-kyodo.html">
-      <span class="num">01</span>
-      <h3>市民協働再検討委員会の仕様書問題</h3>
-      <p>緊急質問。委員定数・公募市民割合・委員謝礼の予算整合をめぐる質疑。市民まつり再開にも波及。</p>
-    </a>
-    <a class="tile" href="topic-hosei-58.html">
-      <span class="num">02</span>
-      <h3>議案第58号 補正予算（第5回）&nbsp;<span class="badge pass">可決</span></h3>
-      <p>東センター空調設備の更新。借上方式と債務負担行為（令和8〜17年度・限度額7,775万円）。</p>
-    </a>
-    <a class="tile" href="#">
-      <span class="num">03</span>
-      <h3>認第1号 令和6年度決算認定&nbsp;<span class="badge fail">不認定</span></h3>
-      <p>市長報告の撤回、優先整備2路線問題などを理由に起立少数で不認定。（準備中）</p>
-    </a>
-    <a class="tile" href="#">
-      <span class="num">04</span>
-      <h3>議員案第36号 市民まつり再構築の決議</h3>
-      <p>新たな市民まつりの計画的対応と体制整備を求める決議。（準備中）</p>
-    </a>
+  <h2 class="sec">会期・日付順</h2>
+  <div id="browse">
+<h3 class="grp">令和8年 第2回定例会（6月）</h3><div class="grid"><a class="tile" data-c="議会運営委員会" href="m/R8.6.23_議会運営委員会①.html"><span class="num">2026-06-23</span><h3>議会運営委員会①</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.6.23_本会議.html"><span class="num">2026-06-23</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.6.23_議会運営委員会②.html"><span class="num">2026-06-23</span><h3>議会運営委員会②</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.6.19_議会運営委員会協議会.html"><span class="num">2026-06-19</span><h3>議会運営委員会協議会</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.6.19_広報・広聴協議会.html"><span class="num">2026-06-19</span><h3>広報・広聴協議会</h3><p>この会議録は、小金井市議会の「広報・広聴協議会」の記録であり、「議案の質疑」や「一般質問」の形式には該当しないため、指定されたフォーマットで</p><span class="meta">特別委員会・協議会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.6.19_厚生文教委員会.html"><span class="num">2026-06-19</span><h3>厚生文教委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.6.18_庁舎等建設及び公共施設マネジメント推進調査特別委員会.html"><span class="num">2026-06-18</span><h3>庁舎等建設及び公共施設マネジメント推進調査特別委員会</h3><p>陳情者からの発言（8陳情第23号） 新庁舎建設の度重なる入札不調を踏まえ、予算遵守と早期建設のため、現設計案の現実的な見直しを求めた。具体的</p><span class="meta">特別委員会・協議会 ・ 動画3本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.6.17_予算特別委員会.html"><span class="num">2026-06-17</span><h3>予算特別委員会</h3><p>議案第31号 令和8年度小金井市一般会計補正予算(第2回)</p><span class="meta">予算特別委員会 ・ 動画3本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.6.16_議会運営委員会.html"><span class="num">2026-06-16</span><h3>議会運営委員会</h3><p>全文・録画あり</p><span class="meta">議会運営委員会 ・ 動画2本</span></a><a class="tile" data-c="常任委員会" href="m/R8.6.15_総務企画委員会.html"><span class="num">2026-06-15</span><h3>総務企画委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画2本</span></a><a class="tile" data-c="常任委員会" href="m/R8.6.12_建設環境委員会.html"><span class="num">2026-06-12</span><h3>建設環境委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画2本</span></a><a class="tile" data-c="常任委員会" href="m/R8.6.11_厚生文教委員会.html"><span class="num">2026-06-11</span><h3>厚生文教委員会</h3><p>陳情の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画4本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.6.10_広報・広聴協議会.html"><span class="num">2026-06-10</span><h3>広報・広聴協議会</h3><p>この会議は「広報・広聴協議会」であり、議案の審議や一般質問ではなく、広報・広聴活動に関する課題や提案の協議を行っています。そのため、以下の要</p><span class="meta">特別委員会・協議会 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.6.9_本会議.html"><span class="num">2026-06-09</span><h3>本会議</h3><p>議案第57号 令和8年度小金井市一般会計補正予算（第3回）</p><span class="meta">本会議 ・ 動画4本</span></a><a class="tile" data-c="本会議" href="m/R8.6.8_本会議.html"><span class="num">2026-06-08</span><h3>本会議</h3><p>一般質問：水谷たかこ・坂井えつ子・河野麻美・水上洋志ほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="本会議" href="m/R8.6.5_本会議.html"><span class="num">2026-06-05</span><h3>本会議</h3><p>一般質問：村上陽介・吉良のりこ・ながとり太郎・中井れい子ほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="本会議" href="m/R8.6.4_本会議.html"><span class="num">2026-06-04</span><h3>本会議</h3><p>一般質問：吹春やすたか・清水学・小林正樹・鈴木成夫ほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.6.2_予算特別委員会.html"><span class="num">2026-06-02</span><h3>予算特別委員会</h3><p>ご提示いただいた会議録は、予算特別委員会における役員選出の様子を記録したものであり、「議案の質疑」や「一般質問」には該当いたしません。本会議</p><span class="meta">予算特別委員会 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.6.2_本会議.html"><span class="num">2026-06-02</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画4本</span></a></div><h3 class="grp">令和8年（5月）</h3><div class="grid"><a class="tile" data-c="特別委員会・協議会" href="m/R8.5.22_広報・広聴協議会.html"><span class="num">2026-05-22</span><h3>広報・広聴協議会</h3><p>基礎委員会で作成された「叩き台」を基に協議が行われ、次回協議会で報告される予定。</p><span class="meta">特別委員会・協議会 ・ 動画2本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.5.18_議会運営委員会.html"><span class="num">2026-05-18</span><h3>議会運営委員会</h3><p>全文・録画あり</p><span class="meta">議会運営委員会 ・ 動画3本</span></a><a class="tile" data-c="常任委員会" href="m/R8.5.12_建設環境委員会.html"><span class="num">2026-05-12</span><h3>建設環境委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画2本</span></a></div><h3 class="grp">令和8年（4月）</h3><div class="grid"><a class="tile" data-c="常任委員会" href="m/R8.4.28_厚生文教委員会.html"><span class="num">2026-04-28</span><h3>厚生文教委員会</h3><p>陳情第116号「指定管理者における重大事項報告と評価の公平性に関する事実確認及び再考の上申を求める」</p><span class="meta">常任委員会 ・ 動画5本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.4.21_広報・広聴協議会.html"><span class="num">2026-04-21</span><h3>広報・広聴協議会</h3><p>全文・録画あり</p><span class="meta">特別委員会・協議会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.4.20_総務企画委員会.html"><span class="num">2026-04-20</span><h3>総務企画委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.4.14_庁舎等建設及び公共施設マネジメント推進調査特別委員会.html"><span class="num">2026-04-14</span><h3>庁舎等建設及び公共施設マネジメント推進調査特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">特別委員会・協議会 ・ 動画2本</span></a></div><h3 class="grp">令和8年 第1回定例会ほか（3月）</h3><div class="grid"><a class="tile" data-c="議会運営委員会" href="m/R8.3.23_議会運営委員会2.html"><span class="num">2026-03-23</span><h3>議会運営委員会2</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.3.23_議会運営委員会3.html"><span class="num">2026-03-23</span><h3>議会運営委員会3</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.3.23_本会議.html"><span class="num">2026-03-23</span><h3>本会議</h3><p>議案第30号：令和8年度小金井市一般会計補正予算（第1回）</p><span class="meta">本会議 ・ 動画6本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.3.23_議会運営委員会1.html"><span class="num">2026-03-23</span><h3>議会運営委員会1</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.3.18_厚生文教委員会.html"><span class="num">2026-03-18</span><h3>厚生文教委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.18_予算特別委員会.html"><span class="num">2026-03-18</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画1本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.3.18_議会運営委員会_10:00～.html"><span class="num">2026-03-18</span><h3>議会運営委員会 10:00～</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.3.18_建設環境委員会.html"><span class="num">2026-03-18</span><h3>建設環境委員会</h3><p>議案・陳情の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.3.18_議会運営委員会.html"><span class="num">2026-03-18</span><h3>議会運営委員会</h3><p>議案の審議（協議）ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.3.17_庁舎等建設及び公共施設マネジメント推進調査特別委員会.html"><span class="num">2026-03-17</span><h3>庁舎等建設及び公共施設マネジメント推進調査特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">特別委員会・協議会 ・ 動画3本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.16_予算特別委員会.html"><span class="num">2026-03-16</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画5本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.13_予算特別委員会.html"><span class="num">2026-03-13</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画2本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.12_予算特別委員会.html"><span class="num">2026-03-12</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画4本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.11_予算特別委員会.html"><span class="num">2026-03-11</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画7本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.10_予算特別委員会.html"><span class="num">2026-03-10</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画5本</span></a><a class="tile" data-c="予算特別委員会" href="m/R8.3.9_予算特別委員会.html"><span class="num">2026-03-09</span><h3>予算特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">予算特別委員会 ・ 動画3本</span></a><a class="tile" data-c="常任委員会" href="m/R8.3.6_総務企画委員会.html"><span class="num">2026-03-06</span><h3>総務企画委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画2本</span></a><a class="tile" data-c="常任委員会" href="m/R8.3.5_建設環境委員会.html"><span class="num">2026-03-05</span><h3>建設環境委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.3.4_厚生文教委員会.html"><span class="num">2026-03-04</span><h3>厚生文教委員会</h3><p>議案・案件の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画6本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.3.3_議会運営委員会.html"><span class="num">2026-03-03</span><h3>議会運営委員会</h3><p>議案（協議事項）の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画2本</span></a><a class="tile" data-c="本会議" href="m/R8.3.2_本会議.html"><span class="num">2026-03-02</span><h3>本会議</h3><p>議案の審議</p><span class="meta">本会議 ・ 動画2本</span></a></div><h3 class="grp">令和8年 第1回定例会ほか（2月）</h3><div class="grid"><a class="tile" data-c="本会議" href="m/R8.2.27_本会議.html"><span class="num">2026-02-27</span><h3>本会議</h3><p>議案第3号 令和7年度小金井市一般会計補正予算（第11回）の訂正について 本会議にて訂正の承認を求めることを決定。</p><span class="meta">本会議 ・ 動画4本</span></a><a class="tile" data-c="本会議" href="m/R8.2.26_本会議.html"><span class="num">2026-02-26</span><h3>本会議</h3><p>一般質問：太田宏徳・水谷たかこ・藤川賢治・中井れい子ほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.2.25_広報・広聴協議会.html"><span class="num">2026-02-25</span><h3>広報・広聴協議会</h3><p>全文・録画あり</p><span class="meta">特別委員会・協議会 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.2.24_本会議.html"><span class="num">2026-02-24</span><h3>本会議</h3><p>一般質問：吹春やすたか・吉良のりこ・小林正樹・天野かなほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="本会議" href="m/R8.2.18_本会議.html"><span class="num">2026-02-18</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画1本</span></a><a class="tile" data-c="本会議" href="m/R8.2.17_本会議.html"><span class="num">2026-02-17</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画4本</span></a><a class="tile" data-c="本会議" href="m/R8.2.16_本会議.html"><span class="num">2026-02-16</span><h3>本会議</h3><p>一般質問：太田宏徳・水谷たかこ・藤川賢治・中井れい子ほか</p><span class="meta">本会議 ・ 動画3本</span></a><a class="tile" data-c="特別委員会・協議会" href="m/R8.2.6_庁舎等建設及び公共施設マネジメント推進調査特別委員会.html"><span class="num">2026-02-06</span><h3>庁舎等建設及び公共施設マネジメント推進調査特別委員会</h3><p>議案の審議ごとの要約</p><span class="meta">特別委員会・協議会 ・ 動画2本</span></a><a class="tile" data-c="本会議" href="m/R8.2.5_本会議.html"><span class="num">2026-02-05</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.2.4_建設環境委員会.html"><span class="num">2026-02-04</span><h3>建設環境委員会</h3><p>議案・調査の審議要約</p><span class="meta">常任委員会 ・ 動画1本</span></a><a class="tile" data-c="議会運営委員会" href="m/R8.2.2_議会運営委員会.html"><span class="num">2026-02-02</span><h3>議会運営委員会</h3><p>議案の審議ごとの要約</p><span class="meta">議会運営委員会 ・ 動画1本</span></a><a class="tile" data-c="常任委員会" href="m/R8.2.2_総務企画委員会.html"><span class="num">2026-02-02</span><h3>総務企画委員会</h3><p>議案の審議ごとの要約</p><span class="meta">常任委員会 ・ 動画1本</span></a></div><h3 class="grp">令和8年（1月）</h3><div class="grid"><a class="tile" data-c="特別委員会・協議会" href="m/R8.1.30_広報・広聴協議会.html"><span class="num">2026-01-30</span><h3>広報・広聴協議会</h3><p>動画を再生しながら議事録を読むことができます。</p><span class="meta">特別委員会・協議会 ・ 動画1本</span></a></div><h3 class="grp">令和7年 第4回定例会（12月）</h3><div class="grid"><a class="tile" data-c="本会議" href="m/R7.12.19_本会議.html"><span class="num">2025-12-19</span><h3>本会議</h3><p>議案の審議ごとの要約</p><span class="meta">本会議 ・ 動画3本</span></a></div><h3 class="grp">令和7年 第3回定例会（10月）</h3><div class="grid"><a class="tile" data-c="常任委員会" href="m/R7.10.27_建設環境委員会.html"><span class="num">2025-10-27</span><h3>建設環境委員会</h3><p>議案・陳情・調査の要約</p><span class="meta">常任委員会 ・ 動画4本</span></a></div>
   </div>
 
-  <!-- PEOPLE -->
-  <h2 class="sec">議員 ／ Members</h2>
-  <div class="grid">
-    <a class="tile" href="person-kishida.html">
-      <span class="num">19</span>
-      <h3>岸田正義 議員</h3>
-      <p>緊急質問を提出。市民協働事業の事務執行を追及。発言・立場の履歴を集約。</p>
-    </a>
-    <a class="tile" href="#">
-      <span class="num">市長</span>
-      <h3>白井 亨 市長</h3>
-      <p>補正予算の提案者。決算不認定の論点（市長報告撤回）の当事者。（準備中）</p>
-    </a>
-    <a class="tile" href="#">
-      <span class="num">24</span>
-      <h3>森戸よう子 議員</h3>
-      <p>東センター空調更新の質疑（借上理由・休館中の代替施設）。（準備中）</p>
-    </a>
-  </div>
-
-  <!-- THEMES -->
-  <h2 class="sec">テーマ ／ Index</h2>
-  <div class="chips">
-    <span class="chip">市民協働</span><span class="chip">市民まつり</span>
-    <span class="chip">予算・財政</span><span class="chip">公共施設・空調</span>
-    <span class="chip">決算認定</span><span class="chip">優先整備2路線</span>
-    <span class="chip">二元代表制</span><span class="chip">公募市民</span>
-  </div>
+  <h2 class="sec">議員から探す</h2>
+  <div class="chips people"><a class="chip" href="p/水谷たかこ.html">水谷たかこ <span class="ct">3</span></a> <a class="chip" href="p/中井れい子.html">中井れい子 <span class="ct">3</span></a> <a class="chip" href="p/藤川賢治.html">藤川賢治 <span class="ct">3</span></a> <a class="chip" href="p/遠藤百合子.html">遠藤百合子 <span class="ct">3</span></a> <a class="chip" href="p/鈴木成夫.html">鈴木成夫 <span class="ct">3</span></a> <a class="chip" href="p/吉良のりこ.html">吉良のりこ <span class="ct">2</span></a> <a class="chip" href="p/ながとり太郎.html">ながとり太郎 <span class="ct">2</span></a> <a class="chip" href="p/吹春やすたか.html">吹春やすたか <span class="ct">2</span></a> <a class="chip" href="p/小林正樹.html">小林正樹 <span class="ct">2</span></a> <a class="chip" href="p/太田宏徳.html">太田宏徳 <span class="ct">2</span></a> <a class="chip" href="p/片山かおる.html">片山かおる <span class="ct">1</span></a> <a class="chip" href="p/渡辺大三.html">渡辺大三 <span class="ct">1</span></a> <a class="chip" href="p/岸田正義.html">岸田正義 <span class="ct">1</span></a> <a class="chip" href="p/森戸よう子.html">森戸よう子 <span class="ct">1</span></a> <a class="chip" href="p/坂井えつ子.html">坂井えつ子 <span class="ct">1</span></a> <a class="chip" href="p/河野麻美.html">河野麻美 <span class="ct">1</span></a> <a class="chip" href="p/水上洋志.html">水上洋志 <span class="ct">1</span></a> <a class="chip" href="p/たゆ久貴.html">たゆ久貴 <span class="ct">1</span></a> <a class="chip" href="p/安田けいこ.html">安田けいこ <span class="ct">1</span></a> <a class="chip" href="p/村上陽介.html">村上陽介 <span class="ct">1</span></a> <a class="chip" href="p/清水学.html">清水学 <span class="ct">1</span></a> <a class="chip" href="p/沖浦あつし.html">沖浦あつし <span class="ct">1</span></a> <a class="chip" href="p/天野かな.html">天野かな <span class="ct">1</span></a> <a class="chip" href="p/村上ようすけ.html">村上ようすけ <span class="ct">1</span></a></div>
 
   <div class="footer">
-    <b>KOGANEI COUNCIL WIKI</b> — LLM editorial demo<br>
-    データ出典：小金井市議会 会議録システム（city.koganei.tokyo.dbsr.jp）／ 分類・要約はAIによる自動生成
+    <b>KOGANEI COUNCIL WIKI</b> — LLM editorial reorganization<br>
+    原典：<a href="https://toritarosan.github.io/Gijiroku1/" target="_blank" rel="noopener">小金井市議会 非公式会議録</a> ／
+    <a href="https://www.youtube.com/@koganei_shigikai" target="_blank" rel="noopener">YouTubeチャンネル</a> ／ 分類・要約はAIによる自動生成
   </div>
 </div>
+<script src="app.js"></script>
+
 <script src="video.js"></script>
-</body>
-</html>
+</body></html>
