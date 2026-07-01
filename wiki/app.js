@@ -1,82 +1,67 @@
-/* 小金井市議会 会議録ナレッジWiki — 検索 & カテゴリ絞り込み */
+/* 会議録ナレッジWiki ホーム — 横断検索 */
 (function () {
   var data = [],
       q = document.getElementById('q'),
+      form = document.getElementById('searchform'),
+      panel = document.getElementById('results-panel'),
       results = document.getElementById('results'),
-      browse = document.getElementById('browse'),
-      noresults = document.getElementById('noresults'),
-      cat = 'all';
+      count = document.getElementById('result-count'),
+      recentPanel = document.getElementById('recent-panel'),
+      articlesPanel = document.getElementById('articles-panel');
 
   fetch('search.json').then(function (r) { return r.json(); }).then(function (j) { data = j; });
 
-  var PILL = {
-    '本会議': ['#a90000', '#fdeeee'],
-    '予算特別委員会': ['#ac3e00', '#ffeee2'],
-    '常任委員会': ['#0031d8', '#e8f1fe'],
-    '議会運営委員会': ['#5c10be', '#f1eafa'],
-    '特別委員会・協議会': ['#197a4b', '#e6f5ec']
+  var DOT = {
+    '本会議': '#ce0000', '予算特別委員会': '#e25100', '常任委員会': '#264af4',
+    '議会運営委員会': '#6f23d0', '特別委員会・協議会': '#1d8b56'
   };
-  function pill(c) {
-    var p = PILL[c] || ['#4d4d4d', '#f2f2f2'];
-    return '<span class="cat" style="color:' + p[0] + ';background:' + p[1] + ';">' + esc(c) + '</span>';
-  }
   function esc(s) {
     return (s || '').replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
   }
 
-  /* --- カテゴリ絞り込み（一覧表示時） --- */
-  function applyFilter() {
-    document.querySelectorAll('#browse .entry').forEach(function (e) {
-      e.classList.toggle('hidden', !(cat === 'all' || e.getAttribute('data-c') === cat));
-    });
-    document.querySelectorAll('#browse .session').forEach(function (s) {
-      var any = s.querySelector('.entry:not(.hidden)');
-      s.classList.toggle('hidden', !any);
-    });
-  }
-
-  /* --- 検索 --- */
   function render() {
     var term = (q.value || '').trim().toLowerCase();
     if (!term) {
-      results.classList.add('hidden'); noresults.classList.add('hidden');
-      browse.classList.remove('hidden'); applyFilter(); return;
+      panel.classList.add('hidden');
+      recentPanel.classList.remove('hidden');
+      articlesPanel.classList.remove('hidden');
+      return;
     }
-    browse.classList.add('hidden');
     var words = term.split(/\s+/);
     var hits = data.filter(function (d) {
-      if (cat !== 'all' && d.c !== cat) return false;
       var hay = (d.t + ' ' + d.c + ' ' + d.w + ' ' + d.d + ' ' + (d.m || []).join(' ') + ' ' +
                  (d.b || []).join(' ') + ' ' + (d.s || '')).toLowerCase();
       return words.every(function (w) { return hay.indexOf(w) >= 0; });
     });
+    count.textContent = hits.length + '件';
+    var h = '';
     if (!hits.length) {
-      results.classList.add('hidden'); noresults.classList.remove('hidden'); return;
+      h = '<div class="no-results">該当する会議・記事が見つかりませんでした。キーワードを変えてお試しください。</div>';
+    } else {
+      hits.forEach(function (d) {
+        var dir = d.k === 'a' ? 'a/' : 'm/';
+        var badge = d.k === 'a'
+          ? '<span class="badge sokuho">特集記事</span>'
+          : (d.sm ? '<span class="badge official">要約つき</span>' : '<span class="badge sokuho">文字起こし</span>');
+        var dot = '<span class="cdot" style="background:' + (DOT[d.c] || '#767676') + ';margin-right:6px;"></span>';
+        h += '<a class="result-row" href="' + dir + encodeURI(d.f) + '">' +
+             '<span class="date">' + esc((d.d || '').replace(/-/g, '/')) + '</span>' +
+             '<span class="body"><span class="title">' + dot + esc(d.t) + '</span>' +
+             '<span class="snip">' + snippet(d.s || '', words[0]) + '</span></span>' +
+             badge + '</a>';
+      });
     }
-    noresults.classList.add('hidden');
-    var h = '<div class="session" style="margin-top:0"><div class="session-head" style="cursor:default">' +
-            '<span class="session-name">検索結果</span><span class="session-count">' + hits.length + '</span>' +
-            '</div><div class="entries">';
-    hits.forEach(function (d) {
-      var dir = d.k === 'a' ? 'a/' : 'm/';
-      var kind = d.k === 'a' ? '特集記事' : '動画' + d.v + '本';
-      h += '<a class="entry" href="' + dir + encodeURI(d.f) + '">' +
-           '<span class="date">' + esc((d.d || '').slice(5).replace('-', '.')) + '</span>' +
-           pill(d.c) +
-           '<span class="name">' + esc(d.t) +
-           '<br><span class="sub">' + snippet(d.s || '', words[0]) + '</span></span>' +
-           '<span class="sub">' + kind + '</span><span class="chev">→</span></a>';
-    });
-    h += '</div></div>';
     results.innerHTML = h;
-    results.classList.remove('hidden');
+    panel.classList.remove('hidden');
+    recentPanel.classList.add('hidden');
+    articlesPanel.classList.add('hidden');
   }
 
   function snippet(s, w) {
     var i = s.toLowerCase().indexOf(w);
-    var start = Math.max(0, i - 28), seg = s.slice(start, start + 120);
+    var start = Math.max(0, i - 26), seg = s.slice(start, start + 130);
     seg = esc(seg);
     try {
       seg = seg.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
@@ -85,12 +70,12 @@
   }
 
   q.addEventListener('input', render);
-  document.querySelectorAll('.facet').forEach(function (b) {
+  form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
+  document.querySelectorAll('.chip[data-q], .topic[data-q]').forEach(function (b) {
     b.addEventListener('click', function () {
-      document.querySelectorAll('.facet').forEach(function (x) { x.classList.remove('is-active'); });
-      b.classList.add('is-active');
-      cat = b.getAttribute('data-cat');
+      q.value = b.getAttribute('data-q');
       render();
+      q.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   });
 })();
