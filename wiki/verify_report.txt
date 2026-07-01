@@ -1,0 +1,9 @@
+[OK] gian57-daitai-undojo
+[OK] gian31-saigai-toilet
+[OK] zaisei-mitoshi
+[OK] gairoju-ryokka
+[OK] josei-shien-kodomo
+[OK] gikai-kaikaku-kyogi
+[OK] ikensho9-bukka
+[OK] kouryu-center-koukeiyaku
+---- 検証結果: 合格（ERROR 0件）----

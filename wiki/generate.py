@@ -9,6 +9,7 @@ Gijiroku1（小金井市議会 非公式会議録）→ ナレッジWiki 生成�
 """
 import re, html, json, os, glob, sys
 from articles import ARTICLES
+import verify as V
 
 SRC = "src"
 OUT = sys.argv[1] if len(sys.argv) > 1 else "out"
@@ -291,11 +292,29 @@ def article_page(a):
   <div class="chips">{tags}</div>
   <h2 class="sec">出典となった会議</h2><ul>{srcs}</ul>
   <h2 class="sec">ほかの議題まとめ</h2><ul>{rel}</ul>
-  <p class="src">本記事は原典の要約データを再構成したものです。発言の正確な文脈は原典・録画でご確認ください。</p>
+  <p class="src">本記事は原典の要約データを再構成したものです。数値・固有名詞・引用は原典との機械照合（verify.py）を通過しています。発言の正確な文脈は原典・録画でご確認ください。</p>
 </div>
 {site_footer(1)}
 """
     return shell(f"{a['title']}｜会議録ナレッジWiki", body, depth=1, docpage=True)
+
+# ---------- 記事の機械検証（原典突合）：不合格なら中止 ----------
+def _load_source(fn):
+    s = open(os.path.join(SRC, fn), encoding="utf-8").read()
+    b = re.search(r"<body[^>]*>(.*)</body>", s, re.S)
+    return V.strip_tags(b.group(1) if b else s)
+
+def _meta_whitelist(fn):
+    d = parse_name(fn)
+    if not d: return set()
+    return {d["iso"], d["slash"], d["wareki"], d["md"],
+            f'{d["mo"]}月{d["da"]}日', f'令和{d["reiwa"]}年', str(d["sortkey"][0])}
+
+_ok, _report = V.verify_all(ARTICLES, _load_source, _meta_whitelist)
+open(os.path.join(OUT, "verify_report.txt"), "w", encoding="utf-8").write(_report)
+print(_report)
+if not _ok:
+    sys.exit("記事の機械検証が不合格のため、生成を中止しました（verify_report.txt 参照）")
 
 # ---------- 書き出し ----------
 for d in docs.values():
