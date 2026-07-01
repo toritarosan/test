@@ -9,6 +9,11 @@ Gijiroku1（小金井市議会 非公式会議録）→ ナレッジWiki 生成�
 """
 import re, html, json, os, glob, sys
 from articles import ARTICLES
+try:
+    from articles_auto import ARTICLES_AUTO
+    ARTICLES = ARTICLES + ARTICLES_AUTO
+except ImportError:
+    pass
 import verify as V
 
 SRC = "src"
@@ -364,80 +369,21 @@ def header_nav(active="home"):
   </nav>
 </div></header>"""
 
-recent_rows = "".join(f"""<tr>
-  <td class="td-date"><span class="date">{esc(d["slash"])}</span></td>
-  <td class="td-kind">{kind(d["cat"])}</td>
-  <td class="td-title"><a class="meeting-link" href="m/{d["file"]}">{esc(d["type"])}</a></td>
-  <td class="td-status">{status_badge(d)}</td>
-  <td class="td-action"><a class="action-link" href="m/{d["file"]}" aria-label="開く">›</a></td>
-</tr>""" for d in recent)
-
 acards = "".join(f"""<a class="acard" href="a/{a["slug"]}.html">
   <span class="ameta">{kind(a["cat"])}<span>{esc(a["wareki"])}</span></span>
   <h3>{esc(a["title"])}</h3><p>{esc(a["lead"])}</p></a>""" for a in ARTICLES)
-
-topic_set = []
-for a in ARTICLES:
-    for t in a["tags"]:
-        if t not in topic_set: topic_set.append(t)
-topics = "".join(f'<button class="topic" data-q="{esc(t)}">{esc(t)}</button>' for t in topic_set[:12])
 
 people_sorted = sorted(people.items(), key=lambda kv: -len(kv[1]))
 pchips = "".join(f'<a class="pchip" href="p/{n}.html">{esc(n)}<span class="cnt">{len(a)}</span></a>'
                  for n, a in people_sorted)
 
-note_items = "".join(f'<div class="note-item"><b>{len(fs)}件</b><span>{esc(n)}</span></div>'
-                     for n, fs in sessions[:2][::-1])
-note_caption = f"その他、{esc(sessions[2][0])} {len(sessions[2][1])}件" if len(sessions) > 2 else ""
-
 index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
 <div class="topline"></div>
 {header_nav("home")}
-<section class="searchband"><div class="container inner" style="padding-left:0;padding-right:0;">
-  <div class="hero-copy">
-    <p class="eyebrow">横断検索／議題まとめ／議員別の記録</p>
-    <h2 class="hero-title">小金井市議会の会議録・議題の記録</h2>
-    <p class="hero-lead">キーワード、議員名、議案番号から、{len(docs)}会議の会議録と議題まとめをまとめて探せます。すべて原典「非公式会議録」に基づくAI再編集版です。</p>
-    <form class="searchbar" id="searchform">
-      <div class="field"><input id="q" type="search" placeholder="例：庁舎建設、補正予算、岸田、市民協働 …" autocomplete="off"></div>
-      <button type="submit">検索</button>
-    </form>
-    <div class="popular">
-      <span class="label">よく出るキーワード：</span>
-      <button type="button" class="chip" data-q="庁舎建設">庁舎建設</button>
-      <button type="button" class="chip" data-q="補正予算">補正予算</button>
-      <button type="button" class="chip" data-q="市民まつり">市民まつり</button>
-      <button type="button" class="chip" data-q="街路樹">街路樹</button>
-    </div>
-  </div>
-  <aside class="hero-note">
-    <p class="note-title">収録会議（会期別）</p>
-    <div class="note-list">{note_items}</div>
-    <p class="note-caption">{note_caption}。<a href="list.html" style="color:var(--primary-ink);font-weight:600;">一覧を見る →</a></p>
-  </aside>
-</div></section>
 
-<div class="container kpi-wrap"><section class="kpi">
-  <div class="cell"><span class="ic">📋</span><div><div class="value">{len(docs)}<small>会議</small></div><p class="label">対象会議</p></div></div>
-  <div class="cell accent"><span class="ic">📰</span><div><div class="value">{len(ARTICLES)}<small>本</small></div><p class="label">議題まとめ</p></div></div>
-  <div class="cell pop"><span class="ic">🎬</span><div><div class="value">{total_v}<small>本</small></div><p class="label">収録動画（YouTube）</p></div></div>
-</section></div>
 
 <main class="main" id="main"><div class="container"><div class="main-grid">
   <div class="col-left">
-    <section class="panel hidden" id="results-panel">
-      <div class="panel-head"><h2 class="panel-title">検索結果</h2><span class="panel-count" id="result-count">0件</span></div>
-      <div id="results"></div>
-    </section>
-    <section class="panel" id="recent-panel">
-      <div class="panel-head"><h2 class="panel-title">最近の会議</h2><span class="panel-count">直近5件</span></div>
-      <div class="table-scroll"><table class="meeting-table">
-        <colgroup><col class="col-date"><col class="col-kind"><col><col class="col-status"><col class="col-action"></colgroup>
-        <thead><tr><th>開催日</th><th>会議種別</th><th>会議名</th><th>ステータス</th><th><span class="visually-hidden">詳細</span></th></tr></thead>
-        <tbody>{recent_rows}</tbody>
-      </table></div>
-      <div class="panel-foot"><a class="more-link" href="list.html">すべての会議を見る <span>→</span></a></div>
-    </section>
     <section class="panel" id="articles-panel">
       <div class="panel-head" id="articles"><h2 class="panel-title">議題まとめ</h2><span class="panel-count">{len(ARTICLES)}本</span></div>
       <div class="articles-body">{acards}</div>
@@ -466,10 +412,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
         <a class="qbtn" href="{KENSAKU}" target="_blank" rel="noopener">🏛 公式会議録検索<span class="external">↗</span></a>
       </div>
     </section>
-    <section class="panel">
-      <div class="panel-head"><h2 class="panel-title">よく出るトピック</h2></div>
-      <div class="topics-body">{topics}</div>
-    </section>
+    
     <section class="panel">
       <div class="panel-head"><h2 class="panel-title">議員から探す</h2><span class="panel-count">{len(people)}人</span></div>
       <div class="people-body">{pchips}</div>
@@ -477,7 +420,6 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
   </aside>
 </div></div></main>
 {site_footer(0)}
-<script src="app.js"></script>
 """
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
     shell("小金井市議会 会議録ナレッジWiki（非公式）", index_body))
