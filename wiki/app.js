@@ -43,7 +43,7 @@
       hits.forEach(function (d) {
         var dir = d.k === 'a' ? 'a/' : 'm/';
         var badge = d.k === 'a'
-          ? '<span class="badge sokuho">特集記事</span>'
+          ? '<span class="badge sokuho">議題まとめ</span>'
           : (d.sm ? '<span class="badge official">要約つき</span>' : '<span class="badge sokuho">文字起こし</span>');
         var dot = '<span class="cdot" style="background:' + (DOT[d.c] || '#767676') + ';margin-right:6px;"></span>';
         h += '<a class="result-row" href="' + dir + encodeURI(d.f) + '">' +

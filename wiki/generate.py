@@ -146,7 +146,7 @@ def sitenav(depth=1, active=""):
   <div class="sitenav-links">
     <a href="{rel}index.html">ホーム</a>
     <a href="{rel}list.html">会議一覧</a>
-    <a href="{rel}index.html#articles">特集記事</a>
+    <a href="{rel}index.html#articles">議題まとめ</a>
     <a href="{GIJI}/" target="_blank" rel="noopener">原典サイト<span class="ext">↗</span></a>
     <a href="{YT_CH}" target="_blank" rel="noopener">原典動画<span class="ext">↗</span></a>
   </div>
@@ -244,7 +244,7 @@ def person_page(name, apps):
     arthtml = ""
     if arts:
         items = "".join(f'<li><a href="../a/{a["slug"]}.html">{esc(a["title"])}</a></li>' for a in arts)
-        arthtml = f'<h2 class="sec">関連する特集記事</h2><ul>{items}</ul>'
+        arthtml = f'<h2 class="sec">関連する議題まとめ</h2><ul>{items}</ul>'
     body = f"""{sitenav(1)}
 <div class="prog"></div>
 <div class="docwrap">
@@ -264,7 +264,7 @@ def person_page(name, apps):
     return shell(f"{name} 議員｜会議録ナレッジWiki", body, depth=1, docpage=True)
 
 # =========================================================
-# 特集記事ページ
+# 議題まとめページ
 # =========================================================
 def article_page(a):
     srcs = "".join(
@@ -278,9 +278,9 @@ def article_page(a):
     body = f"""{sitenav(1)}
 <div class="prog"></div>
 <div class="docwrap">
-  <div class="top-eyebrow"><span class="sq"></span><a href="../index.html">ホーム</a><span>›</span><span>特集記事</span></div>
+  <div class="top-eyebrow"><span class="sq"></span><a href="../index.html">ホーム</a><span>›</span><span>議題まとめ</span></div>
   <div class="dochero">
-    <p class="date">{esc(a["wareki"])} {catpill(a["cat"])} <span class="badge sokuho">特集記事</span></p>
+    <p class="date">{esc(a["wareki"])} {catpill(a["cat"])} <span class="badge sokuho">議題まとめ</span></p>
     <h1>{esc(a["title"])}</h1>
     <p class="lead">{esc(a["lead"])}</p>
   </div>
@@ -290,7 +290,7 @@ def article_page(a):
   <h2 class="sec">関係する議員</h2><div class="chips">{ppl}</div>
   <div class="chips">{tags}</div>
   <h2 class="sec">出典となった会議</h2><ul>{srcs}</ul>
-  <h2 class="sec">ほかの特集記事</h2><ul>{rel}</ul>
+  <h2 class="sec">ほかの議題まとめ</h2><ul>{rel}</ul>
   <p class="src">本記事は原典の要約データを再構成したものです。発言の正確な文脈は原典・録画でご確認ください。</p>
 </div>
 {site_footer(1)}
@@ -339,7 +339,7 @@ def header_nav(active="home"):
   <nav class="nav">
     <a{cls("home")} href="index.html">ホーム</a>
     <a{cls("list")} href="list.html">会議一覧</a>
-    <a href="index.html#articles">特集記事</a>
+    <a href="index.html#articles">議題まとめ</a>
     <a href="{GIJI}/" target="_blank" rel="noopener">原典サイト<span class="ext">↗</span></a>
     <a href="{YT_CH}" target="_blank" rel="noopener">原典動画<span class="ext">↗</span></a>
   </nav>
@@ -376,9 +376,9 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
 {header_nav("home")}
 <section class="searchband"><div class="container inner" style="padding-left:0;padding-right:0;">
   <div class="hero-copy">
-    <p class="eyebrow">横断検索・特集記事・議員別アーカイブ</p>
-    <h2 class="hero-title">小金井市議会の議論を、たどれる形に。</h2>
-    <p class="hero-lead">キーワード、議員名、議案番号から、{len(docs)}会議の会議録と特集記事をまとめて探せます。すべて原典「非公式会議録」に基づくAI再編集版です。</p>
+    <p class="eyebrow">横断検索／議題まとめ／議員別の記録</p>
+    <h2 class="hero-title">小金井市議会の会議録・議題の記録</h2>
+    <p class="hero-lead">キーワード、議員名、議案番号から、{len(docs)}会議の会議録と議題まとめをまとめて探せます。すべて原典「非公式会議録」に基づくAI再編集版です。</p>
     <form class="searchbar" id="searchform">
       <div class="field"><input id="q" type="search" placeholder="例：庁舎建設、補正予算、岸田、市民協働 …" autocomplete="off"></div>
       <button type="submit">検索</button>
@@ -400,7 +400,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
 
 <div class="container kpi-wrap"><section class="kpi">
   <div class="cell"><span class="ic">📋</span><div><div class="value">{len(docs)}<small>会議</small></div><p class="label">対象会議</p></div></div>
-  <div class="cell accent"><span class="ic">📰</span><div><div class="value">{len(ARTICLES)}<small>本</small></div><p class="label">特集記事</p></div></div>
+  <div class="cell accent"><span class="ic">📰</span><div><div class="value">{len(ARTICLES)}<small>本</small></div><p class="label">議題まとめ</p></div></div>
   <div class="cell pop"><span class="ic">🎬</span><div><div class="value">{total_v}<small>本</small></div><p class="label">収録動画（YouTube）</p></div></div>
 </section></div>
 
@@ -420,7 +420,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
       <div class="panel-foot"><a class="more-link" href="list.html">すべての会議を見る <span>→</span></a></div>
     </section>
     <section class="panel" id="articles-panel">
-      <div class="panel-head" id="articles"><h2 class="panel-title">特集記事</h2><span class="panel-count">{len(ARTICLES)}本</span></div>
+      <div class="panel-head" id="articles"><h2 class="panel-title">議題まとめ</h2><span class="panel-count">{len(ARTICLES)}本</span></div>
       <div class="articles-body">{acards}</div>
     </section>
   </div>
@@ -428,7 +428,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
     <section class="about">
       <h3>このサイトについて</h3>
       <p>本サイトは、<a href="{GIJI}/" target="_blank" rel="noopener">小金井市議会 非公式会議録</a>（作成・運営：小金井市議会議員 ながとり太郎）を原典として、
-      AIが<strong>検索・議員・特集記事</strong>の切り口で再編集した非公式のナレッジベースです。</p>
+      AIが<strong>検索・議員・議題まとめ</strong>の切り口で再編集した非公式のナレッジベースです。</p>
       <ul>
         <li>要約・記事・抽出はAIによる自動生成のため、誤りを含む可能性があります。</li>
         <li>正確な発言内容は、原典（全文・動画頭出しつき）、市議会の公式会議録またはYouTube動画をご確認ください。</li>
