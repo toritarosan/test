@@ -80,13 +80,35 @@ def verify_article(article, source_texts, date_whitelist=()):
     for w in date_whitelist:
         wl.add(normalize(w))
 
-    # V1 数値照合（複合数値を一体で、数字境界つきで照合）
-    for tok in extract_numbers(normalize(full_plain)):
-        if found_with_boundary(tok, norm_sources):
-            continue
+    # V1 数値照合（複合数値を一体で、数字境界つきで照合。加えて「あいまいな」数値は文脈つきで照合）
+    # 549億614万9000円のような具体的な複合数値・金額はほぼ一意なので単独一致で十分だが、
+    # 「5月」「7件」のような短い一般的な数値は原典中の無関係な箇所にも出現しやすく、
+    # 単独一致だけでは「別の議題の数値を別文脈に流用した」ハルシネーションを見逃す。
+    # 桁数が少なく、億/万/千/兆を含まない数値トークンは、前後の文脈込みで照合を要求する。
+    CTX = 10
+    norm_full_v1 = normalize(full_plain)
+    for m in NUM_TOKEN.finditer(norm_full_v1):
+        tok = m.group(0)
         if any(tok == w or tok in w for w in wl):
             continue
-        errors.append(f"V1 原典に存在しない数値: '{tok}'")
+        if not found_with_boundary(tok, norm_sources):
+            errors.append(f"V1 原典に存在しない数値: '{tok}'")
+            continue
+        digits = re.sub(r"\D", "", tok)
+        # 議案・陳情・意見書等の番号（〜号）は一意な識別子なので、桁数によらず信頼できる。
+        # 曖昧判定は「月/日/年/人/件/回」等、汎用的で頻出しやすい単位を持つ短い数値に限定する。
+        VAGUE_UNITS = ("月", "日", "年", "人", "件", "回")
+        is_id_like = bool(re.search(r"(号|区|市)$", tok))
+        ambiguous = (len(digits) <= 2 and not re.search(r"[兆億万千]", tok)
+                     and not is_id_like and tok.endswith(VAGUE_UNITS))
+        if not ambiguous:
+            continue
+        ctx = norm_full_v1[max(0, m.start()-CTX):min(len(norm_full_v1), m.end()+CTX)]
+        if ctx not in norm_sources:
+            # 短い数値の前後文脈は要約時の語順変更で一致しにくく、正しい要約でも誤検知しうる。
+            # そのため公開ブロックの ERROR ではなく、人による確認を促す warning とする。
+            warnings.append(f"V1 数値は原典に存在するが前後の文脈が一致しない（要人確認）: "
+                            f"'{tok}' の周辺 …{norm_full_v1[max(0,m.start()-10):m.end()+10]}…")
 
     # V2 引用照合（「」内 5文字以上を対象。短い一般語は除外）
     for q in re.findall(r"「([^」]{4,40})」", full_plain):
@@ -102,9 +124,16 @@ def verify_article(article, source_texts, date_whitelist=()):
             errors.append(f"V3 原典に存在しない議案番号: '{g}'")
 
     # V4 禁止語
+    # 例外: 禁止語が原典由来の固有名詞・引用の一部である場合
+    # （例: 議案名「〜疑惑を全容解明することを求める意見書」）は、
+    # その語の前後文脈ごと原典に逐語で存在することを条件に許容する。
+    norm_full_for_v4 = normalize(full_plain)
     for w in FORBIDDEN:
-        if w in full_plain:
-            errors.append(f"V4 禁止語（評価的・扇情的表現）: '{w}'")
+        for m in re.finditer(re.escape(w), norm_full_for_v4):
+            ctx = norm_full_for_v4[max(0, m.start()-6):m.end()+6]
+            if ctx not in norm_sources:
+                errors.append(f"V4 禁止語（評価的・扇情的表現）: '{w}'（文脈: …{ctx}…）")
+            break  # 同一語の重複報告は1回まで
 
     # V5 帰属チェック
     # 表は「質疑（議会側）／答弁（行政側）」「立場」等の列見出しで話者への帰属が
