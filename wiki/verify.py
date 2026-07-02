@@ -9,6 +9,7 @@ verify.py — 議題まとめ記事の機械検証（原典突合）
 
 検証項目:
   V1 数値照合   : 記事中のすべての数値が単位込み・原典の表記どおりに存在すること（表記ゆれは正規化で吸収）
+  V1b 日付照合   : 記事中の日付（年月日・月日）が複合文字列として原典に存在すること（捏造日付の検出）
   V2 引用照合   : 記事中の「」内の語句が原典本文に逐語で存在すること
   V3 固有名詞照合: 議員名・議案番号等が原典本文に存在すること
   V4 禁止語     : 評価的・扇情的な語（追及・糾弾・迫る等）を含まないこと
@@ -80,12 +81,9 @@ def verify_article(article, source_texts, date_whitelist=()):
     for w in date_whitelist:
         wl.add(normalize(w))
 
-    # V1 数値照合（複合数値を一体で、数字境界つきで照合。加えて「あいまいな」数値は文脈つきで照合）
-    # 549億614万9000円のような具体的な複合数値・金額はほぼ一意なので単独一致で十分だが、
-    # 「5月」「7件」のような短い一般的な数値は原典中の無関係な箇所にも出現しやすく、
-    # 単独一致だけでは「別の議題の数値を別文脈に流用した」ハルシネーションを見逃す。
-    # 桁数が少なく、億/万/千/兆を含まない数値トークンは、前後の文脈込みで照合を要求する。
-    CTX = 10
+    # V1 数値照合（複合数値を一体で、数字境界つきで照合）
+    # 549億614万9000円 のような具体的な複合数値・金額・件数は、その数値トークンが
+    # 原典に「数値の途中でない位置」から現れることを要求する（不在なら ERROR）。
     norm_full_v1 = normalize(full_plain)
     for m in NUM_TOKEN.finditer(norm_full_v1):
         tok = m.group(0)
@@ -93,22 +91,28 @@ def verify_article(article, source_texts, date_whitelist=()):
             continue
         if not found_with_boundary(tok, norm_sources):
             errors.append(f"V1 原典に存在しない数値: '{tok}'")
+
+    # V1b 日付の複合照合（捏造日付の検出）
+    # 「5月」「26日」は単独では原典の別箇所に高頻度で存在するため、
+    # トークン単位照合では「令和8年5月26日」のような捏造日付をすり抜ける。
+    # そこで日付は複合文字列（年月日／月日）として一体で原典に存在することを要求する。
+    # 長いパターン優先の単一正規表現で「令和N年M月D日」を一体マッチさせ、
+    # 同じ箇所から「M月D日」等が二重にマッチするのを防ぐ（非重複の finditer）。
+    DATE_RE = re.compile(r"令和\d+年\d+月\d+日|\d+年\d+月\d+日|\d+月\d+日")
+    seen_dates = set()
+    for m in DATE_RE.finditer(norm_full_v1):
+        md = m.group(0)
+        if md in seen_dates:
             continue
-        digits = re.sub(r"\D", "", tok)
-        # 議案・陳情・意見書等の番号（〜号）は一意な識別子なので、桁数によらず信頼できる。
-        # 曖昧判定は「月/日/年/人/件/回」等、汎用的で頻出しやすい単位を持つ短い数値に限定する。
-        VAGUE_UNITS = ("月", "日", "年", "人", "件", "回")
-        is_id_like = bool(re.search(r"(号|区|市)$", tok))
-        ambiguous = (len(digits) <= 2 and not re.search(r"[兆億万千]", tok)
-                     and not is_id_like and tok.endswith(VAGUE_UNITS))
-        if not ambiguous:
+        seen_dates.add(md)
+        if md in wl or ("令和" + md) in wl:
             continue
-        ctx = norm_full_v1[max(0, m.start()-CTX):min(len(norm_full_v1), m.end()+CTX)]
-        if ctx not in norm_sources:
-            # 短い数値の前後文脈は要約時の語順変更で一致しにくく、正しい要約でも誤検知しうる。
-            # そのため公開ブロックの ERROR ではなく、人による確認を促す warning とする。
-            warnings.append(f"V1 数値は原典に存在するが前後の文脈が一致しない（要人確認）: "
-                            f"'{tok}' の周辺 …{norm_full_v1[max(0,m.start()-10):m.end()+10]}…")
+        # 原典側は「4月の14日」のように年・月の後に「の」を挟む場合がある。
+        # 日付照合はこの「の」の有無を許容し、令和接頭辞の有無も吸収する。
+        flex = md.replace("年", "年の?").replace("月", "月の?")
+        if re.search(flex, norm_sources) or re.search("令和" + flex, norm_sources):
+            continue
+        errors.append(f"V1b 原典に存在しない日付（捏造の疑い）: '{md}'")
 
     # V2 引用照合（「」内 5文字以上を対象。短い一般語は除外）
     for q in re.findall(r"「([^」]{4,40})」", full_plain):

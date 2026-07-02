@@ -21,7 +21,7 @@ def meta_whitelist(fn):
 
 REQUIRED = {"slug","cat","date","wareki","src","video","people","tags","title","lead","body"}
 passed, failed = [], []
-for path in sorted(glob.glob("drafts/agent*.py")):
+for path in sorted(glob.glob("drafts/agent*.py")) + sorted(glob.glob("drafts/wf_*.py")):
     ns = {}
     try:
         exec(open(path, encoding="utf-8").read(), ns)
