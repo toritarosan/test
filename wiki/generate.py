@@ -29,9 +29,11 @@ def strip_tags(s): return html.unescape(re.sub(r"<[^>]+>", "", s))
 def collapse(s): return re.sub(r"\s+", " ", s).strip()
 def esc(s): return html.escape(str(s))
 
-# ---------- カテゴリ色（原典 list.html と同一のドット色） ----------
-DOT = {"all":"#0017c1","本会議":"#ce0000","予算特別委員会":"#e25100","常任委員会":"#264af4",
-       "議会運営委員会":"#6f23d0","特別委員会・協議会":"#1d8b56"}
+# ---------- カテゴリ色（tile-2 パレット：原典の緑系とは別トーン） ----------
+DOT = {"all":"#20242a","本会議":"#c2410c","予算特別委員会":"#b45309","常任委員会":"#1d4ed8",
+       "議会運営委員会":"#7c3aed","特別委員会・協議会":"#0f766e"}
+TINT = {"本会議":"#fdf0e9","予算特別委員会":"#fdf3e3","常任委員会":"#eef2fd",
+        "議会運営委員会":"#f4eefd","特別委員会・協議会":"#e9f5f2"}
 def catpill(cat):
     return (f'<span class="cat-pill"><span class="cdot" style="background:{DOT.get(cat,"#767676")};"></span>'
             f'{esc(cat)}</span>')
@@ -139,6 +141,7 @@ def site_footer(depth=0):
   <div class="footer-links">
     <a href="{rel}index.html">ホーム</a>
     <a href="{rel}list.html">会議一覧</a>
+    <a href="{rel}index.html#articles">議題まとめ</a>
     <a href="{GIJI}/" target="_blank" rel="noopener">原典サイト ↗</a>
     <a href="{KENSAKU}" target="_blank" rel="noopener">公式会議録 ↗</a>
   </div>
@@ -146,17 +149,10 @@ def site_footer(depth=0):
 
 def sitenav(depth=1, active=""):
     rel = "../" * depth
-    def cls(k): return ' class="active"' if k == active else ""
-    return f"""<nav class="sitenav" aria-label="サイト共通ナビ"><div class="sitenav-in">
-  <a class="sitenav-brand" href="{rel}index.html"><img src="{rel}logo.png" alt="">会議録アーカイブ</a>
-  <div class="sitenav-links">
-    <a href="{rel}index.html">ホーム</a>
-    <a href="{rel}list.html">会議一覧</a>
-    <a href="{rel}index.html#articles">議題まとめ</a>
-    <a href="{GIJI}/" target="_blank" rel="noopener">原典サイト<span class="ext">↗</span></a>
-    <a href="{YT_CH}" target="_blank" rel="noopener">原典動画<span class="ext">↗</span></a>
-  </div>
-</div></nav>"""
+    return f"""<header class="sitenav"><div class="sitenav-in">
+  <a class="sitenav-brand" href="{rel}index.html"><span class="mk sm">会</span>会議録アーカイブ</a>
+  <span class="sitenav-note">非公式・AI再編集・検証済み（読み取り専用）</span>
+</div></header>"""
 
 EMBED_JS = ("<script>try{if(window.self!==window.top)document.documentElement.classList.add('embedded');}"
             "catch(e){document.documentElement.classList.add('embedded');}</script>")
@@ -173,7 +169,6 @@ def shell(title, body, depth=0, docpage=False):
 <html lang="ja"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
-<link rel="icon" href="{rel}logo.png">
 <link rel="stylesheet" href="{rel}style.css">
 </head><body{cls}>
 {EMBED_JS}
@@ -350,28 +345,20 @@ all_docs = sorted(docs.values(), key=lambda x: x["sortkey"], reverse=True)
 recent = all_docs[:5]
 
 def header_nav(active="home"):
-    def cls(k): return ' class="active"' if k == active else ""
     return f"""<header class="site-header"><div class="container inner">
   <a class="brand" href="index.html" aria-label="会議録アーカイブ ホーム">
-    <img class="logo" src="logo.png" alt="">
+    <span class="mk">会</span>
     <span class="brand-text">
       <span class="kicker">小金井市議会</span>
       <h1>会議録アーカイブ <span class="beta">非公式</span></h1>
       <p>原典「非公式会議録」（ながとり太郎議員）のAI再編集・検証済み（読み取り専用）</p>
     </span>
   </a>
-  <nav class="nav">
-    <a{cls("home")} href="index.html">ホーム</a>
-    <a{cls("list")} href="list.html">会議一覧</a>
-    <a href="index.html#articles">議題まとめ</a>
-    <a href="{GIJI}/" target="_blank" rel="noopener">原典サイト<span class="ext">↗</span></a>
-    <a href="{YT_CH}" target="_blank" rel="noopener">原典動画<span class="ext">↗</span></a>
-  </nav>
 </div></header>"""
 
-acards = "".join(f"""<a class="acard" href="a/{a["slug"]}.html">
-  <span class="ameta">{kind(a["cat"])}<span>{esc(a["wareki"])}</span></span>
-  <h3>{esc(a["title"])}</h3><p>{esc(a["lead"])}</p></a>""" for a in ARTICLES)
+acards = "".join(f"""<a class="tile" style="--c:{DOT.get(a["cat"],"#767676")};--t:{TINT.get(a["cat"],"#f2f0ec")}" href="a/{a["slug"]}.html">
+  <span class="tmeta"><span class="tcat">{esc(a["cat"])}</span><span class="tdate">{esc(a["wareki"])}</span></span>
+  <span class="ttl">{esc(a["title"])}</span></a>""" for a in ARTICLES)
 
 people_sorted = sorted(people.items(), key=lambda kv: -len(kv[1]))
 pchips = "".join(f'<a class="pchip" href="p/{n}.html">{esc(n)}<span class="cnt">{len(a)}</span></a>'
@@ -386,7 +373,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
   <div class="col-left">
     <section class="panel" id="articles-panel">
       <div class="panel-head" id="articles"><h2 class="panel-title">議題まとめ</h2><span class="panel-count">{len(ARTICLES)}本</span></div>
-      <div class="articles-body">{acards}</div>
+      <div class="tile-grid">{acards}</div>
     </section>
   </div>
   <aside class="side-col">
