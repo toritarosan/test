@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>デザイン刷新 3案比較｜会議録アーカイブ</title>
+<style>
+:root{--ink:#1a1a1a;--muted:#666;--line:#ddd;}
+*{box-sizing:border-box;}
+body{margin:0;background:#f5f5f4;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.8;}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 80px;}
+h1{font-size:1.5rem;margin:0 0 4px;}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 28px;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px;}
+.plan{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.plan .swatch{height:64px;display:flex;}
+.plan .swatch span{flex:1;}
+.plan .body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;}
+.plan h2{font-size:1.05rem;margin:0 0 6px;}
+.plan p{font-size:.84rem;color:#444;margin:0 0 12px;}
+.plan a.btn{margin-top:auto;display:block;text-align:center;background:#1a1a1a;color:#fff;text-decoration:none;padding:10px;border-radius:6px;font-size:.9rem;font-weight:600;}
+.plan a.btn:hover{background:#333;}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);font-size:.86rem;}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;line-height:1.7;}
+thead th{background:#1a1a1a;color:#fff;font-size:.82rem;}
+tbody th{background:#fafafa;white-space:nowrap;font-size:.82rem;width:130px;}
+.note{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 20px;font-size:.85rem;color:#444;}
+.note b{color:var(--ink);}
+@media(max-width:800px){.plans{grid-template-columns:1fr;}}
+.tbl-scroll{overflow-x:auto;}
+</style>
+</head><body>
+<div class="wrap">
+  <h1>デザイン刷新 3案の比較</h1>
+  <p class="sub">原典「非公式会議録」（緑×クリーム×クマ）と明確に区別するための3方向。各案は実データで作った実寸モックアップです。</p>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="swatch"><span style="background:#ffffff;border-bottom:3px solid #1a1a1a"></span><span style="background:#1a1a1a"></span><span style="background:#b91c1c"></span></div>
+      <div class="body">
+        <h2>案A 公的記録・台帳</h2>
+        <p>官報・公文書の記録簿。白×墨×朱印。明朝見出し・通し番号・角印風の「検証済」。制度側の顔で、原典の親しみやすさと正反対。</p>
+        <a class="btn" href="plan-a.html">案Aを見る →</a>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="swatch"><span style="background:#0f172a"></span><span style="background:#f8fafc"></span><span style="background:#0891b2"></span></div>
+      <div class="body">
+        <h2>案B データポータル</h2>
+        <p>行政オープンデータの基盤。ネイビー×白×シアン、等幅数字、✓検証済みチップ、出典リネージ表示。「検証済みデータ」の信頼性を技術で語る。</p>
+        <a class="btn" href="plan-b.html">案Bを見る →</a>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="swatch"><span style="background:#faf8f3"></span><span style="background:#1e3a5f"></span><span style="background:#8b6f47"></span></div>
+      <div class="body">
+        <h2>案C 書庫・資料室</h2>
+        <p>静かな図書館の目録。生成りの紙×濃紺×金茶、セリフ見出し、図書カード型の議題まとめ。「保存された記録」の落ち着きと品位。</p>
+        <a class="btn" href="plan-c.html">案Cを見る →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>評価軸</th><th>案A 公的記録・台帳</th><th>案B データポータル</th><th>案C 書庫・資料室</th></tr></thead>
+    <tbody>
+      <tr><th>第一印象</th><td>公式・硬質・権威</td><td>近代的・技術的・透明</td><td>落ち着き・知性・保存</td></tr>
+      <tr><th>原典との差別化</th><td>◎ 正反対（親しみ→制度）</td><td>◎ 別ジャンル（ポータル→データ基盤）</td><td>○ 別トーン（現役→書庫）</td></tr>
+      <tr><th>「検証済み」の見せ方</th><td>朱の角印（記録の公証感）</td><td>✓チップ＋出典リネージ（機械的裏付け）</td><td>金茶の細枠ラベル（目録の管理感）</td></tr>
+      <tr><th>中立・無色性</th><td>◎ 感情色ほぼゼロ</td><td>◎ データとして提示</td><td>○ 情緒はあるが穏やか</td></tr>
+      <tr><th>読みやすさ（長文）</th><td>○ 記録調に合う</td><td>○ 画面向き</td><td>◎ 行間広く読み物向き</td></tr>
+      <tr><th>情報密度</th><td>高（台帳的）</td><td>中〜高（カード＋メタ）</td><td>中（余白多め）</td></tr>
+      <tr><th>合う利用者像</th><td>行政・報道・研究</td><td>シビックテック・データ利用者</td><td>市民・じっくり読む人</td></tr>
+      <tr><th>リスク</th><td>冷たく感じる人も</td><td>ITっぽさが議会と乖離？</td><td>古風に見える可能性</td></tr>
+      <tr><th>実装コスト</th><td colspan="3">いずれも同等（style.css とテンプレ文字列の差し替えのみ。構造・検証パイプラインは無変更）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note">
+    <b>共通の変更点（どの案でも）:</b> クマのロゴは使わず文字ベースのマークに変更／緑×クリームの配色を全廃／「非公式・AI再編集・検証済み（読み取り専用）」の明示は維持／カテゴリ5色・検証パイプライン・ページ構成は現状のまま。<br>
+    モックアップはトップページ相当のみ。採用案が決まったら全ページ（会議一覧・議題まとめ・会議・議員ページ）へ展開します。
+  </div>
+</div>
+</body></html>

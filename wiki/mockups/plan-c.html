@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案C 書庫・資料室 — 会議録アーカイブ モックアップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf8f3;
+  --paper-card:#fffdf8;
+  --navy:#1e3a5f;
+  --ink:#3d3a33;
+  --gold:#8b6f47;
+  --gold-light:#c4ad8a;
+  --rule:#ddd5c4;
+  --cat-honkaigi:#1e3a5f;
+  --cat-jonin:#4a6178;
+  --cat-yosan:#6e3b3b;
+  --cat-giun:#8b6f47;
+  --cat-tokubetsu:#5c4a6e;
+  --serif:"Noto Serif JP","Hiragino Mincho ProN",serif;
+  --sans:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--navy);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+
+/* ---------- header ---------- */
+.site-header{
+  background:var(--navy);
+  color:#fff;
+  padding:36px 0 0;
+}
+.brand{display:flex;align-items:center;gap:18px;}
+.brand-mark{
+  flex:0 0 auto;
+  width:52px;height:52px;
+  border:1px solid rgba(255,255,255,.55);
+  outline:1px solid rgba(255,255,255,.25);
+  outline-offset:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);
+  font-size:26px;font-weight:600;
+  color:#fff;
+}
+.brand-kicker{
+  font-size:12px;
+  letter-spacing:.35em;
+  color:rgba(255,255,255,.75);
+  margin-bottom:2px;
+}
+.brand-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:30px;
+  letter-spacing:.12em;
+  line-height:1.3;
+  color:#fff;
+}
+.brand-note{
+  font-size:12px;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.7);
+  margin-top:4px;
+}
+.site-nav{
+  margin-top:28px;
+  border-top:1px solid rgba(255,255,255,.25);
+}
+.site-nav ul{
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+}
+.site-nav a{
+  display:block;
+  padding:12px 22px 12px 0;
+  color:rgba(255,255,255,.9);
+  text-decoration:none;
+  font-size:13.5px;
+  letter-spacing:.14em;
+}
+.site-nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:6px;}
+.site-nav .ext{color:var(--gold-light);}
+
+/* ---------- stats (所蔵) ---------- */
+.holdings{
+  border-bottom:1px solid var(--rule);
+  padding:30px 0 26px;
+}
+.holdings-inner{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:0 0;
+}
+.holdings-label{
+  font-family:var(--serif);
+  font-size:13px;
+  letter-spacing:.3em;
+  color:var(--gold);
+  border:1px solid var(--gold-light);
+  padding:2px 12px 2px 14px;
+  margin-right:34px;
+  white-space:nowrap;
+}
+.holding{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  padding:0 30px;
+  border-left:1px solid var(--rule);
+}
+.holding:last-child{border-right:1px solid var(--rule);}
+.holding dt{
+  font-size:12px;
+  letter-spacing:.12em;
+  color:#6f6a5e;
+}
+.holding dd{
+  font-family:var(--serif);
+  font-size:24px;
+  font-weight:600;
+  color:var(--navy);
+}
+.holding dd small{
+  font-size:12px;
+  font-weight:500;
+  color:#6f6a5e;
+  margin-left:2px;
+}
+
+/* ---------- trust strip ---------- */
+.trust{
+  margin:34px 0 0;
+  border:1px solid var(--gold-light);
+  background:var(--paper-card);
+  padding:18px 26px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px 36px;
+  align-items:center;
+  position:relative;
+}
+.trust::before{
+  content:"";
+  position:absolute;
+  inset:4px;
+  border:1px solid rgba(139,111,71,.25);
+  pointer-events:none;
+}
+.trust-head{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:15px;
+  color:var(--navy);
+  letter-spacing:.1em;
+  white-space:nowrap;
+}
+.trust ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 32px;}
+.trust li{
+  font-size:13px;
+  color:#5a5548;
+  padding-left:16px;
+  position:relative;
+}
+.trust li::before{
+  content:"";
+  position:absolute;
+  left:0;top:.85em;
+  width:8px;height:1px;
+  background:var(--gold);
+}
+.badge-verified{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.14em;
+  color:var(--gold);
+  border:1px solid var(--gold);
+  padding:1px 10px;
+  white-space:nowrap;
+  font-family:var(--serif);
+}
+
+/* ---------- section headings ---------- */
+.section{padding:56px 0 0;}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:18px;
+  border-bottom:3px double var(--gold-light);
+  padding-bottom:12px;
+  margin-bottom:30px;
+}
+.section-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:24px;
+  letter-spacing:.14em;
+  color:var(--navy);
+}
+.section-sub{
+  font-size:12.5px;
+  letter-spacing:.1em;
+  color:#6f6a5e;
+}
+.section-more{
+  margin-left:auto;
+  font-size:13px;
+  letter-spacing:.08em;
+  color:var(--gold);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.section-more:hover{text-decoration:underline;text-underline-offset:5px;}
+
+/* ---------- catalog cards ---------- */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.card{
+  background:var(--paper-card);
+  border:1px solid var(--rule);
+  border-top:3px double var(--gold);
+  padding:18px 22px 16px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 1px 0 rgba(61,58,51,.06);
+}
+.card-meta{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-bottom:10px;
+}
+.card-no{
+  font-family:var(--serif);
+  font-size:15px;
+  font-weight:600;
+  color:var(--gold);
+  letter-spacing:.06em;
+  white-space:nowrap;
+}
+.card-cap{
+  font-size:11.5px;
+  letter-spacing:.06em;
+  color:#6f6a5e;
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 10px;
+  align-items:baseline;
+}
+.cat{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.1em;
+  padding:0 8px;
+  border:1px solid currentColor;
+  white-space:nowrap;
+}
+.cat-honkaigi{color:var(--cat-honkaigi);}
+.cat-jonin{color:var(--cat-jonin);}
+.cat-yosan{color:var(--cat-yosan);}
+.cat-giun{color:var(--cat-giun);}
+.cat-tokubetsu{color:var(--cat-tokubetsu);}
+.card-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:16.5px;
+  line-height:1.75;
+  color:var(--navy);
+  margin-bottom:8px;
+}
+.card-title a{color:inherit;text-decoration:none;}
+.card-title a:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--gold);}
+.card-body{
+  font-size:13px;
+  line-height:1.9;
+  color:#5a5548;
+  flex:1 1 auto;
+}
+.card-foot{
+  margin-top:14px;
+  padding-top:10px;
+  border-top:1px dotted var(--gold-light);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.card-foot .src{
+  font-size:12px;
+  letter-spacing:.05em;
+  color:var(--gold);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.card-foot .src:hover{text-decoration:underline;text-underline-offset:4px;}
+
+/* ---------- meeting catalog list ---------- */
+.catalog{
+  border:1px solid var(--rule);
+  background:var(--paper-card);
+  padding:8px 28px;
+}
+.catalog-row{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid #eee8da;
+}
+.catalog-row:last-child{border-bottom:none;}
+.catalog-date{
+  font-family:var(--serif);
+  font-size:14.5px;
+  font-weight:500;
+  color:var(--gold);
+  letter-spacing:.05em;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.catalog-lead{
+  flex:0 0 26px;
+  border-bottom:1px dotted var(--gold-light);
+  align-self:center;
+  transform:translateY(-2px);
+}
+.catalog-title{
+  font-family:var(--serif);
+  font-size:15.5px;
+  font-weight:500;
+  color:var(--navy);
+  text-decoration:none;
+}
+.catalog-title:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--gold);}
+.catalog-fill{
+  flex:1 1 auto;
+  border-bottom:1px dotted #cfc6b2;
+  align-self:center;
+  transform:translateY(-2px);
+  min-width:24px;
+}
+.catalog-tags{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  flex:0 0 auto;
+}
+.tag-status{
+  font-size:11px;
+  letter-spacing:.08em;
+  color:#6f6a5e;
+  border:1px solid #cfc6b2;
+  padding:0 8px;
+  white-space:nowrap;
+}
+.tag-status.summary{color:var(--gold);border-color:var(--gold);}
+
+/* ---------- footer ---------- */
+.site-footer{
+  margin-top:72px;
+  background:var(--navy);
+  color:rgba(255,255,255,.82);
+  padding:40px 0 44px;
+}
+.footer-brand{
+  font-family:var(--serif);
+  font-size:17px;
+  letter-spacing:.16em;
+  color:#fff;
+  margin-bottom:4px;
+}
+.footer-kicker{
+  font-size:11px;
+  letter-spacing:.3em;
+  color:rgba(255,255,255,.6);
+}
+.footer-disclaimer{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.25);
+  font-size:12.5px;
+  line-height:2;
+  color:rgba(255,255,255,.75);
+}
+.footer-links{
+  margin-top:14px;
+  font-size:12.5px;
+}
+.footer-links a{color:var(--gold-light);text-decoration:none;margin-right:24px;letter-spacing:.08em;}
+.footer-links a:hover{text-decoration:underline;text-underline-offset:5px;}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .cards{grid-template-columns:repeat(2,1fr);}
+  .holdings-inner{gap:14px 0;}
+  .holdings-label{margin-bottom:6px;}
+  .holding{padding:0 20px;}
+}
+@media (max-width:640px){
+  .wrap{padding:0 18px;}
+  .brand-title{font-size:24px;}
+  .site-nav a{padding:10px 16px 10px 0;font-size:12.5px;}
+  .cards{grid-template-columns:1fr;}
+  .holdings-inner{flex-direction:column;align-items:flex-start;gap:10px;}
+  .holdings-label{margin-right:0;}
+  .holding{border-left:none;border-right:none !important;padding:0;}
+  .catalog{padding:4px 16px;}
+  .catalog-row{flex-wrap:wrap;gap:6px 12px;}
+  .catalog-lead{display:none;}
+  .catalog-fill{display:none;}
+  .catalog-title{flex-basis:100%;}
+  .trust{flex-direction:column;align-items:flex-start;gap:10px;}
+}
+</style>
+</head>
+<body>
+
+<div style="position:sticky;top:0;z-index:99;background:#111;color:#fff;font-size:13px;padding:8px 16px;font-family:sans-serif;">デザイン案C 書庫（モックアップ） ・ <a href="index.html" style="color:#9cf">比較表</a> ・ <a href="plan-a.html" style="color:#9cf">案A</a> ・ <a href="plan-b.html" style="color:#9cf">案B</a> ・ <a href="plan-c.html" style="color:#9cf">案C</a></div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark">録</div>
+      <div>
+        <div class="brand-kicker">小金井市議会</div>
+        <h1 class="brand-title">会議録アーカイブ</h1>
+        <div class="brand-note">非公式・AI再編集・検証済み（読み取り専用）</div>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="#">ホーム</a></li>
+        <li><a href="#">会議一覧</a></li>
+        <li><a href="#">議題まとめ</a></li>
+        <li><a href="#" class="ext">原典サイト↗</a></li>
+        <li><a href="#" class="ext">原典動画↗</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="holdings">
+  <div class="wrap">
+    <div class="holdings-inner">
+      <span class="holdings-label">所蔵</span>
+      <dl class="holding"><dt>対象会議</dt><dd>62</dd></dl>
+      <dl class="holding"><dt>議題まとめ</dt><dd>28<small>本</small></dd></dl>
+      <dl class="holding"><dt>登壇議員</dt><dd>24<small>人</small></dd></dl>
+      <dl class="holding"><dt>収録動画</dt><dd>148<small>本</small></dd></dl>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <aside class="trust">
+    <span class="trust-head">本書庫の記載について</span>
+    <ul>
+      <li><span class="badge-verified">機械検証済み</span>　数値・引用・固有名詞を原典と照合済み</li>
+      <li>すべての記事に原典への出典リンクを常設</li>
+      <li>議会側・行政側を同じ重みで中立に記載</li>
+    </ul>
+  </aside>
+</div>
+
+<main>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">議題まとめ</h2>
+        <span class="section-sub">目録より最新の六件</span>
+        <a class="section-more" href="#">全28本の目録を見る →</a>
+      </div>
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.028</span>
+            <span class="card-cap"><span class="cat cat-honkaigi">本会議</span>令和8年6月9日</span>
+          </div>
+          <h3 class="card-title"><a href="#">議案第57号 令和8年度一般会計補正予算（第3回）：第一小学校の代替運動場整備</a></h3>
+          <p class="card-body">校舎改築に伴い庁舎建設予定地の一部に代替運動場を整備する補正予算。質疑の後、予算特別委員会に付託された。</p>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.027</span>
+            <span class="card-cap"><span class="cat cat-yosan">予算特別委員会</span>令和8年6月17日</span>
+          </div>
+          <h3 class="card-title"><a href="#">議案第31号 令和8年度一般会計補正予算（第2回）：災害用トイレトレーラーの導入</a></h3>
+          <p class="card-body">財源の一部にふるさと納税型クラウドファンディングを充てる補正予算。歳入・歳出それぞれに質疑が行われた。</p>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.026</span>
+            <span class="card-cap"><span class="cat cat-honkaigi">本会議</span>令和8年6月9日</span>
+          </div>
+          <h3 class="card-title"><a href="#">一般質問：今後の財政見通し（新庁舎建設・学校施設長寿命化と市債）</a></h3>
+          <p class="card-body">岸田正義議員が将来の借入金と財政見通しについて質問し、市が答弁した。</p>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.025</span>
+            <span class="card-cap"><span class="cat cat-giun">議会運営委員会</span>令和8年5月18日</span>
+          </div>
+          <h3 class="card-title"><a href="#">議会運営委員会（令和8年5月18日）：議会改革提案の協議状況</a></h3>
+          <p class="card-body">試行実施ルール、議会誌の発行、ペーパーレス化等の提案内容・意見・結果を記録。</p>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.024</span>
+            <span class="card-cap"><span class="cat cat-tokubetsu">特別委員会・協議会</span>令和8年6月18日</span>
+          </div>
+          <h3 class="card-title"><a href="#">庁舎等建設及び公共施設マネジメント推進調査特別委員会（令和8年6月18日）：新庁舎建設サウンディング調査の報告と陳情5件の審査</a></h3>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-meta">
+            <span class="card-no">No.023</span>
+            <span class="card-cap"><span class="cat cat-honkaigi">本会議</span>令和8年6月23日</span>
+          </div>
+          <h3 class="card-title"><a href="#">本会議（令和8年6月23日）：委員会付託議案・陳情の討論採決、議案第58号の即決、意見書・決議の審議</a></h3>
+          <div class="card-foot">
+            <span class="badge-verified">機械検証済み</span>
+            <a class="src" href="#">出典（原典）↗</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">会議一覧</h2>
+        <span class="section-sub">目録（新着順）</span>
+        <a class="section-more" href="#">全62会議の目録を見る →</a>
+      </div>
+      <div class="catalog">
+
+        <div class="catalog-row">
+          <span class="catalog-date">2026/06/23</span>
+          <span class="catalog-lead"></span>
+          <a class="catalog-title" href="#">本会議</a>
+          <span class="catalog-fill"></span>
+          <span class="catalog-tags">
+            <span class="cat cat-honkaigi">本会議</span>
+            <span class="tag-status">文字起こし</span>
+          </span>
+        </div>
+
+        <div class="catalog-row">
+          <span class="catalog-date">2026/06/19</span>
+          <span class="catalog-lead"></span>
+          <a class="catalog-title" href="#">厚生文教委員会</a>
+          <span class="catalog-fill"></span>
+          <span class="catalog-tags">
+            <span class="cat cat-jonin">常任委員会</span>
+            <span class="tag-status">文字起こし</span>
+          </span>
+        </div>
+
+        <div class="catalog-row">
+          <span class="catalog-date">2026/06/18</span>
+          <span class="catalog-lead"></span>
+          <a class="catalog-title" href="#">庁舎等建設及び公共施設マネジメント推進調査特別委員会</a>
+          <span class="catalog-fill"></span>
+          <span class="catalog-tags">
+            <span class="cat cat-tokubetsu">特別委員会・協議会</span>
+            <span class="tag-status">文字起こし</span>
+          </span>
+        </div>
+
+        <div class="catalog-row">
+          <span class="catalog-date">2026/06/17</span>
+          <span class="catalog-lead"></span>
+          <a class="catalog-title" href="#">予算特別委員会</a>
+          <span class="catalog-fill"></span>
+          <span class="catalog-tags">
+            <span class="cat cat-yosan">予算特別委員会</span>
+            <span class="tag-status summary">要約つき</span>
+          </span>
+        </div>
+
+        <div class="catalog-row">
+          <span class="catalog-date">2026/06/16</span>
+          <span class="catalog-lead"></span>
+          <a class="catalog-title" href="#">議会運営委員会</a>
+          <span class="catalog-fill"></span>
+          <span class="catalog-tags">
+            <span class="cat cat-giun">議会運営委員会</span>
+            <span class="tag-status">文字起こし</span>
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-kicker">小金井市議会</div>
+    <div class="footer-brand">会議録アーカイブ</div>
+    <p class="footer-disclaimer">本サイトは非公式のAI生成コンテンツです。内容の正確性・最新性については原典・公式情報をご確認ください。</p>
+    <div class="footer-links">
+      <a href="#">原典サイト↗</a>
+      <a href="#">原典動画↗</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
