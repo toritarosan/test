@@ -40,7 +40,7 @@
 - **コンピュート層の候補**：
   - A. **HF Spaces**（ユーザーが挙げた案）：入力欄＋生成エンジン。秘密鍵・GitHubトークン保持可、PR作成も可。
   - B. **GitHub Actions のみ**：Issue/フォーム起点でCIが生成→PR。外部サービス不要・全部GitHub内で完結。
-  - 推奨：A×B ハイブリッド（HFで聞く窓口＋生成、合格物はPRで戻して人手承認）。
+  - → **2026-07-03に決定を確定。下記「決定：採用アーキテクチャ」参照（HF Spacesは不採用、GitHub完結＋段階導入）。**
 
 ## 新規に必要な部品（今は無い）
 1. **RAG検索**：話題→関連会議録の特定（62本をチャンク化しベクトル検索。FAISS/Chroma等）。← 最大の新規開発だが定番技術。
@@ -61,7 +61,48 @@
 ## おすすめの進め方（段階）
 - **Phase 1（低リスク・すぐ楽しい）**：右＝リクエスト受付＋トレンド板（集計表示のみ）。生成はモデレーション待ち行列へ。
 - **Phase 2**：承認された話題を verify.py で検証→カード化→人が承認→左に“昇格・収録”。
-- 着手するなら **HF Space の最小プロトタイプ**（話題入力→検証済みカード1枚を表示）に、最初から右カラム（リクエスト＆トレンド板）を組み込む形が良い。
+- 着手する場合の最初の一歩は、下記「決定：採用アーキテクチャ」内の該当項目を参照。
 
 ---
-（この構想は未実装。着手時はまず生成モデルの選定＝Claude API か HFオープンモデルか、から。）
+
+## 決定：採用アーキテクチャ（2026-07-03決定・未実装）
+
+複数アーキテクチャ案（多エージェントでリサーチ4本→設計案3本→各案6基準×3票で独立採点→統合）を比較した結果、以下に決定。
+**この決定は「アイデア」ではなく「採用方針」。実装自体はまだ着手していない。**
+
+### 採点結果（6基準×3票平均、満点30点）
+- 案C：段階最小案（Phase1はトレンド板のみ自動化・生成は完全手動・LLM鍵ゼロ）＝**24.0点（採用）**
+- 案A：GitHub完結型（Issue駆動で生成まで自動化）＝21.3点
+- 案B：HF Space＋GitHub PRハイブリッド＝20.7点（**不採用**：秘密鍵の二重管理と外部依存のコストが個人運用に見合わない）
+
+### 結論
+**案C（段階最小案）を土台に採用**し、Phase 2（検証→カード昇格の自動化）でのみ案Aの「却下理由コードの限定列挙＋承認と機械検証合格が揃えば例外なく機械的にPR化＋内容非依存の`budget.json`サーキットブレーカー」を接木する。HF Spacesは採用しない（GitHub完結）。
+
+### Phase 1：受付＋トレンド板（LLM生成なし・秘密鍵不要）
+- 新規ファイル：`.github/ISSUE_TEMPLATE/topic-request.yml`（話題投稿フォーム、却下基準を本文明記、`labels:["request"]`自動付与）／`.github/ISSUE_TEMPLATE/config.yml`／ラベル一式（`request` `approved` `rejected:spam` `rejected:abuse` `rejected:illegal` `rejected:personal-info` `rejected:duplicate` `published:<slug>`）／`.github/workflows/trend-build.yml`（cron、現状ゼロの`.github/workflows`への初追加）／`wiki/build_trend.py`／`wiki/trend.json`／`wiki/trend.js`
+- データフロー：訪問者がIssue Forms投稿→collaboratorが人手でラベル付け（approved/rejected:<code>）→cronで`build_trend.py`がGitHub REST APIを読み取り集計→`trend.json`へ直接コミット→既存Pages配信が自動反映。生成は運用者が手元で`verify_one.py`→`integrate.py`→`generate.py`を実行し人力でPR。
+- 最初の一歩：`.github/ISSUE_TEMPLATE/topic-request.yml`を追加するだけ（秘密鍵・既存コード変更不要）。完了の目安：Issuesの「New issue」でこのフォームが選択でき、投稿すると`request`ラベルが自動付与されること。
+
+### Phase 2：検証→カード昇格（ここで初めてLLM APIキーを導入）
+- 新規ファイル：`.github/workflows/draft-request.yml`（`ready-to-draft`ラベルがトリガー）／`wiki/rag_index.py`＋`wiki/bm25.py`（BM25索引、索引自体もJSONでコミットし監査対象にする）／`wiki/budget.json`（月次・日次上限のサーキットブレーカー）
+- 既存の`verify_one.py`・`integrate.py`・`generate.py`のゲート構造は無改変で再利用。PRに含めるのはARTICLES_DRAFT（データ）のみでHTMLは含めない＝生成物の手編集禁止（POLICY §9-2）を維持。
+- 検証が2回連続で不合格の場合は3回目を自動で試さず人手対応を要請して打ち切る（CLAUDE.mdの「同じ修正は2回まで」方針を踏襲）。
+
+### モデレーション：却下理由コードは5種類に限定（これ以外を理由にできない）
+`rejected:spam`（宣伝）／`rejected:abuse`（誹謗中傷）／`rejected:illegal`（違法・プライバシー侵害）／`rejected:personal-info`（個人情報）／`rejected:duplicate`（重複）。内容の立場・主張は却下理由にできないことをIssue Forms本文に明記する（POLICY §9-2）。承認ラベル＋verify合格が揃えば例外なく機械的にPR化し、どのリクエストをPR化するかに運用者の裁量を挟まない。
+
+### コスト制御（Phase2のみ、仮値・要確認）
+月間上限50件・日次上限10件（`wiki/budget.json`、`concurrency: group: budget-lock`で書き込みを直列化）／同一投稿者の同時未処理リクエスト上限3件／重複判定はGitHub純正reactionによる関心集約で代用（新規アルゴリズムは作らない）。
+
+### 未解決のリスク（要検討・意図的に未対応）
+1. **承認済みトピックの着手順序に恣意性が残る**：どの承認済み案件から手を付けるかは人手の裁量のまま。反論「それは§9-2が禁じる恣意性そのものでは」に対し、「未解決の残存リスクとして明記し、順序の強制機構化は今回のスコープ外」と回答済み。
+2. reaction数ランキングはソックパペット（複数無料アカウントでの水増し）に弱い（対策未実装）。
+3. cronの間隔とPagesビルド頻度のトレードオフは実測なし。
+4. `budget.json`の同時書き込み排他制御は設計のみで未検証。
+5. SLA・上限件数（48時間／50件／10件／3件）はすべて仮値、実運用前に要確認。
+
+### 統合プラン全文
+セッション内でアーティファクトとして生成済み（統合プランの完全版・スコア内訳・データフロー図つき）。次回セッションでURLが失われている場合は、本セクションの要約から再構成するか、同じ調査プロセス（リサーチ→設計案比較→採点→統合）を再実行する。
+
+---
+（Phase1・Phase2とも未実装。着手する場合はまず「Phase 1：最初の一歩」から。）
