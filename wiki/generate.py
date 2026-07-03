@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Gijiroku1（小金井市議会 非公式会議録）→ ナレッジWiki 生成スクリプト
+Gijiroku1（小金井市議会 非公式会議録）→ 会議録アーカイブ 生成スクリプト
 デザイン：Gijiroku1 最新ポータル準拠（緑×クリーム×コーラル、角丸2px）
 入力：./src/*.html（原典62本）+ ./gijiroku_index.html + articles.py
 出力：OUT/（index.html, list.html, m/×62, p/×N, a/×記事, search.json）
@@ -148,7 +148,7 @@ def sitenav(depth=1, active=""):
     rel = "../" * depth
     def cls(k): return ' class="active"' if k == active else ""
     return f"""<nav class="sitenav" aria-label="サイト共通ナビ"><div class="sitenav-in">
-  <a class="sitenav-brand" href="{rel}index.html"><img src="{rel}logo.png" alt="">会議録ナレッジWiki</a>
+  <a class="sitenav-brand" href="{rel}index.html"><img src="{rel}logo.png" alt="">会議録アーカイブ</a>
   <div class="sitenav-links">
     <a href="{rel}index.html">ホーム</a>
     <a href="{rel}list.html">会議一覧</a>
@@ -235,7 +235,7 @@ def meeting_page(d):
 </div>
 {site_footer(1)}
 """
-    return shell(f"{d['type']} {d['wareki']}｜会議録ナレッジWiki", body, depth=1, docpage=True)
+    return shell(f"{d['type']} {d['wareki']}｜会議録アーカイブ（非公式）", body, depth=1, docpage=True)
 
 # =========================================================
 # 議員ページ
@@ -267,7 +267,7 @@ def person_page(name, apps):
 </div>
 {site_footer(1)}
 """
-    return shell(f"{name} 議員｜会議録ナレッジWiki", body, depth=1, docpage=True)
+    return shell(f"{name} 議員｜会議録アーカイブ（非公式）", body, depth=1, docpage=True)
 
 # =========================================================
 # 議題まとめページ
@@ -301,7 +301,7 @@ def article_page(a):
 </div>
 {site_footer(1)}
 """
-    return shell(f"{a['title']}｜会議録ナレッジWiki", body, depth=1, docpage=True)
+    return shell(f"{a['title']}｜会議録アーカイブ（非公式）", body, depth=1, docpage=True)
 
 # ---------- 記事の機械検証（原典突合）：不合格なら中止 ----------
 def _load_source(fn):
@@ -352,12 +352,12 @@ recent = all_docs[:5]
 def header_nav(active="home"):
     def cls(k): return ' class="active"' if k == active else ""
     return f"""<header class="site-header"><div class="container inner">
-  <a class="brand" href="index.html" aria-label="会議録ナレッジWiki ホーム">
+  <a class="brand" href="index.html" aria-label="会議録アーカイブ ホーム">
     <img class="logo" src="logo.png" alt="">
     <span class="brand-text">
       <span class="kicker">小金井市議会</span>
-      <h1>会議録ナレッジWiki <span class="beta">非公式</span></h1>
-      <p>原典「非公式会議録」（ながとり太郎議員）のAI再編集版</p>
+      <h1>会議録アーカイブ <span class="beta">非公式</span></h1>
+      <p>原典「非公式会議録」（ながとり太郎議員）のAI再編集・検証済み（読み取り専用）</p>
     </span>
   </a>
   <nav class="nav">
@@ -393,7 +393,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
     <section class="about">
       <h3>このサイトについて</h3>
       <p>本サイトは、<a href="{GIJI}/" target="_blank" rel="noopener">小金井市議会 非公式会議録</a>（作成・運営：小金井市議会議員 ながとり太郎）を原典として、
-      AIが<strong>検索・議員・議題まとめ</strong>の切り口で再編集した非公式のナレッジベースです。</p>
+      AIが<strong>検索・議員・議題まとめ</strong>の切り口で再編集した非公式のアーカイブです（読み取り専用。閲覧者が編集する仕組みは持ちません）。</p>
       <ul>
         <li>要約・記事・抽出はAIによる自動生成のため、誤りを含む可能性があります。</li>
         <li>正確な発言内容は、原典（全文・動画頭出しつき）、市議会の公式会議録またはYouTube動画をご確認ください。</li>
@@ -422,7 +422,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
 {site_footer(0)}
 """
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
-    shell("小金井市議会 会議録ナレッジWiki（非公式）", index_body))
+    shell("小金井市議会 会議録アーカイブ（非公式）", index_body))
 
 # =========================================================
 # 会議一覧ページ
@@ -483,6 +483,6 @@ list_body = f"""<div class="topline"></div>
 </script>
 """
 open(os.path.join(OUT, "list.html"), "w", encoding="utf-8").write(
-    shell("会議一覧｜小金井市議会 会議録ナレッジWiki", list_body))
+    shell("会議一覧｜小金井市議会 会議録アーカイブ（非公式）", list_body))
 
 print("WROTE:", OUT, "| meetings:", len(docs), "| people:", len(people), "| articles:", len(ARTICLES))
