@@ -15,6 +15,7 @@ try:
 except ImportError:
     pass
 import verify as V
+import surf_core
 
 SRC = "src"
 OUT = sys.argv[1] if len(sys.argv) > 1 else "out"
@@ -129,6 +130,37 @@ for d in docs.values():
         people.setdefault(mem, []).append(d)
 
 # =========================================================
+# サーフ層（連想ナビ）：surf_core に一本化。
+# build_surf.py と同一ロジックだが、本経路は截断前の bills（[:30]）を渡すため接続がより完全。
+# maps を先に取得し、本体の会議/議員/記事ページからサーフ・ハブへの導線リンクを張る。
+# =========================================================
+_surf_meetings = [{"f": d["file"], "t": d["type"], "c": d["cat"], "w": d["wareki"],
+                   "members": d["members"], "bills": d["bills"]} for d in docs.values()]
+surf_pages, surf_stats, surf_maps = surf_core.build(_surf_meetings, ARTICLES, sessions, note="ベータ")
+MSLUG, PSLUG = surf_maps["mslug"], surf_maps["pslug"]
+ART_BY_SLUG = {a["slug"]: a for a in ARTICLES}
+
+def surf_doorway(href):
+    return (f'<p class="surf-doorway"><a href="{href}">🌊 この項目から'
+            f'「議論の海」をたどる（連想ナビ）</a></p>')
+
+def related_articles(a):
+    """先頭3件を切り取る恣意スライスを廃し、機械的共起（人物・出典会議の共有数）で順位付け。
+    共起ゼロのときのみ同一カテゴリ最新を公開閾値として明示的にフォールバック。"""
+    scores = {}
+    for x in ARTICLES:
+        if x["slug"] == a["slug"]:
+            continue
+        sc = len(set(a["people"]) & set(x["people"])) + len(set(a["src"]) & set(x["src"]))
+        if sc:
+            scores[x["slug"]] = sc
+    ranked = sorted(scores, key=lambda s: (-scores[s], s))
+    if ranked:
+        return [ART_BY_SLUG[s] for s in ranked[:5]], "共起（登場議員・出典会議の共有）順"
+    same = [x for x in ARTICLES if x["cat"] == a["cat"] and x["slug"] != a["slug"]]
+    return same[:3], "共起なし → 同一カテゴリを表示"
+
+# =========================================================
 # 共通部品
 # =========================================================
 FOOTNOTE = ("本サイトは非公式のAI生成コンテンツです。データの更新状況やAIの精度には限界があります。"
@@ -224,6 +256,7 @@ def meeting_page(d):
   {content}
   {memhtml}
   {billhtml}
+  {surf_doorway(f'../surf/m/{MSLUG[d["file"]]}.html')}
   <p class="src">出典：小金井市議会 非公式会議録（作成：ながとり太郎議員）／
     <a href="{GIJI}/{d['file']}" target="_blank" rel="noopener">この会議の原典を開く ↗</a>・
     <a href="{YT_CH}" target="_blank" rel="noopener">市議会YouTube ↗</a></p>
@@ -258,6 +291,7 @@ def person_page(name, apps):
   {arthtml}
   <h2 class="sec">登壇した会議（{len(apps)}件）</h2>
   <table><tr><th>日付</th><th>種別</th><th>会議</th><th>状態</th></tr>{rows}</table>
+  {surf_doorway(f'../surf/p/{PSLUG[name]}.html') if name in PSLUG else ''}
   <p class="src">登壇記録は会議録の見出しから自動抽出したもので、抜けがある場合があります。</p>
 </div>
 {site_footer(1)}
@@ -274,7 +308,7 @@ def article_page(a):
         for f in a["src"] if f in docs)
     ppl = " ".join(f'<a class="chip" href="../p/{p}.html">{esc(p)}</a>' for p in a["people"])
     tags = " ".join(f'<span class="chip">#{esc(t)}</span>' for t in a["tags"])
-    others = [x for x in ARTICLES if x["slug"] != a["slug"]][:3]
+    others, rel_note = related_articles(a)
     rel = "".join(f'<li><a href="{x["slug"]}.html">{esc(x["title"])}</a></li>' for x in others)
     body = f"""{sitenav(1)}
 <div class="prog"></div>
@@ -291,7 +325,8 @@ def article_page(a):
   <h2 class="sec">関係する議員</h2><div class="chips">{ppl}</div>
   <div class="chips">{tags}</div>
   <h2 class="sec">出典となった会議</h2><ul>{srcs}</ul>
-  <h2 class="sec">ほかの議題まとめ</h2><ul>{rel}</ul>
+  {surf_doorway(f'../surf/a/{a["slug"]}.html')}
+  <h2 class="sec">関連する議題まとめ <span class="relnote">（{esc(rel_note)}）</span></h2><ul>{rel}</ul>
   <p class="src">本記事は原典の要約データを再構成したものです。数値・固有名詞・引用は原典との機械照合（verify.py）を通過しています。発言の正確な文脈は原典・録画でご確認ください。</p>
 </div>
 {site_footer(1)}
@@ -334,6 +369,14 @@ search += [{"k": "a", "f": a["slug"] + ".html", "t": a["title"], "c": a["cat"], 
             "s": a["lead"] + " " + collapse(strip_tags(a["body"]))[:400], "v": 1, "sm": 1}
            for a in ARTICLES]
 json.dump(search, open(os.path.join(OUT, "search.json"), "w", encoding="utf-8"), ensure_ascii=False)
+
+# ---------- サーフ層の書き出し（OUT/surf/。full bills 版で build_surf.py の出力を上書き） ----------
+for sub in ("", "m", "p", "b", "c", "s", "a"):
+    os.makedirs(os.path.join(OUT, "surf", sub), exist_ok=True)
+for _rel, _content in surf_pages.items():
+    open(os.path.join(OUT, "surf", _rel), "w", encoding="utf-8").write(_content)
+open(os.path.join(OUT, "surf", "surf.css"), "w", encoding="utf-8").write(surf_core.CSS)
+print("WROTE surf/:", surf_stats)
 
 # =========================================================
 # ホーム（ポータル）
@@ -393,6 +436,7 @@ index_body = f"""<a class="skip-link" href="#main">本文へ移動</a>
     <section class="panel">
       <div class="panel-head"><h2 class="panel-title">クイックリンク</h2></div>
       <div class="quick-body">
+        <a class="qbtn" href="surf/index.html">🌊 議論の海サーフ（連想ナビ）</a>
         <a class="qbtn" href="list.html">📋 会議一覧（会期別）</a>
         <a class="qbtn" href="{GIJI}/" target="_blank" rel="noopener">📖 原典アーカイブ<span class="external">↗</span></a>
         <a class="qbtn" href="{YT_CH}" target="_blank" rel="noopener">🎬 市議会YouTube<span class="external">↗</span></a>

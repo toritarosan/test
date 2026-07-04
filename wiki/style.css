@@ -224,6 +224,13 @@ tr:first-child th{border-bottom:2px solid var(--ink);color:var(--ink);font-size:
 .src{color:var(--muted);font-size:.8rem;line-height:1.9;border-top:1px dashed var(--border);padding-top:12px;margin-top:20px;}
 .src a{color:var(--primary-ink);font-weight:600;}
 
+/* サーフ層への導線 */
+.surf-doorway{margin:18px 0 4px;}
+.surf-doorway a{display:inline-block;font-size:.85rem;font-weight:700;color:#8a5a00;
+  background:#fdf6e6;border:1px solid #ecdcae;border-radius:999px;padding:8px 15px;}
+.surf-doorway a:hover{background:#f9edd2;}
+.relnote{font-size:.72rem;font-weight:600;color:var(--muted);}
+
 /* 動画 */
 .videorow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:14px 0 6px;}
 .vidnote{font-size:.76rem;color:var(--muted);}
