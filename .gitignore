@@ -1,0 +1,3 @@
+# Python bytecode caches (generated when generate.py / articles modules are imported)
+__pycache__/
+*.pyc
