@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>メモ用紙案（note-1）｜小金井市 議案・審査案件マッシュアップ</title>
+<style>
+*{box-sizing:border-box;}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  background:#e7e3da;color:#20242a;}
+.in{max-width:1160px;margin:0 auto;padding:0 20px;}
+.cmp{position:sticky;top:0;z-index:99;background:#111;color:#fff;font-size:12px;padding:7px 16px;}
+.cmp a{color:#9cf;}
+.hd{background:#fff;border-bottom:1px solid #e2ddd4;}
+.hd .in{display:flex;align-items:center;gap:12px;height:64px;}
+.mk{width:36px;height:36px;background:#e8b04b;color:#20242a;font-weight:900;display:grid;place-items:center;border-radius:4px;}
+.hd b{font-size:1.08rem;font-weight:900;display:block;}
+.hd i{font-size:.68rem;color:#6b7075;font-style:normal;}
+.sechd{display:flex;align-items:baseline;gap:12px;margin:30px 0 4px;}
+.sechd h2{font-size:1.05rem;font-weight:900;margin:0;}
+.sechd .cnt{font-size:.72rem;color:#5b6168;background:#fff;border-radius:999px;padding:2px 10px;}
+.sechd .hint{font-size:.74rem;color:#6b7075;}
+
+/* ==== メモ用紙タイル ==== */
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:26px 20px;
+  padding:30px 6px 44px;}
+.note{
+  --paper:#f5efe0;              /* 主案：温かいクリーム紙 */
+  position:relative;
+  display:flex;flex-direction:column;gap:5px;
+  padding:26px 16px 16px;
+  min-height:150px;
+  text-decoration:none;color:#20242a;
+  background:
+    repeating-linear-gradient(transparent 0 25px, #accbe0 25px 26px),
+    linear-gradient(180deg,#ffffffcc,transparent 40px), var(--paper);
+  background-blend-mode:multiply,normal,normal;
+  box-shadow:0 7px 15px rgba(40,34,20,.16);
+  transform:rotate(var(--rot,-1.2deg));
+  transition:transform .13s ease,box-shadow .13s ease;
+}
+.note::after{content:"";position:absolute;inset:0;border:1px solid rgba(120,100,60,.13);pointer-events:none;}
+.npin{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:20px;height:20px;border-radius:50%;z-index:2;
+  background:radial-gradient(circle at 34% 28%, #ffffffcc, var(--c) 46%, rgba(0,0,0,.45));
+  box-shadow:0 3px 4px rgba(0,0,0,.34);
+}
+.npin::after{content:"";position:absolute;top:16px;left:50%;transform:translateX(-50%);
+  width:2px;height:7px;background:rgba(0,0,0,.22);border-radius:1px;}
+.nmeta{display:flex;align-items:center;gap:8px;position:relative;}
+.ncat{font-size:.68rem;font-weight:800;color:var(--c);}
+.ndate{margin-left:auto;font-size:.68rem;color:#7a7f85;font-variant-numeric:tabular-nums;}
+.ntitle{font-size:.9rem;font-weight:700;line-height:26px;color:#20242a;position:relative;}
+.note:nth-child(4n){--rot:1deg;}
+.note:nth-child(4n+1){--rot:-1.6deg;}
+.note:nth-child(4n+2){--rot:.6deg;}
+.note:nth-child(4n+3){--rot:-.6deg;}
+.note:hover{transform:rotate(0deg) translateY(-3px);box-shadow:0 14px 26px rgba(40,34,20,.24);z-index:3;}
+
+@media(max-width:640px){.board{grid-template-columns:1fr 1fr;gap:22px 16px;}}
+</style></head><body>
+<div class="cmp">メモ用紙案（note-1・モックアップ） ・
+  <a href="tile-2.html">タイル案2（現行）</a> ・ <a href="note-1.html">メモ用紙案</a></div>
+<header class="hd"><div class="in">
+  <span class="mk">会</span>
+  <div><b>小金井市 議案・審査案件マッシュアップ</b><i>非公式・AI再編集・検証済み（読み取り専用）</i></div>
+</div></header>
+<main class="in">
+  <div class="sechd"><h2>議題まとめ</h2><span class="cnt">28本</span>
+    <span class="hint">主案：クリーム紙＋カテゴリ色の画鋲</span></div>
+  <div class="board"><a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">議案第57号 令和8年度一般会計補正予算（第3回）：第一小学校の代替運動場整備</span></a>
+<a class="note" style="--c:#b45309;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">予算特別委員会</span><span class="ndate">令和8年6月17日</span></span><span class="ntitle">議案第31号 令和8年度一般会計補正予算（第2回）：災害用トイレトレーラーの導入</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：今後の財政見通し（新庁舎建設・学校施設長寿命化と市債）</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：街路樹・公園樹の維持管理、駅前緑化、コミュニティバス運転士の確保</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：困難な問題を抱える女性支援法への対応、児童虐待の通報周知、主権者教育</span></a>
+<a class="note" style="--c:#7c3aed;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">議会運営委員会</span><span class="ndate">令和8年5月18日</span></span><span class="ntitle">議会運営委員会（令和8年5月18日）：議会改革提案の協議状況</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">意見書案第9号：イラン戦争に伴う物価高騰から暮らしと営業を守る緊急対策を求める意見書</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：市民交流センターの指定管理業務と公契約条例</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年3月23日</span></span><span class="ntitle">本会議（令和8年3月23日）：令和8年度一般会計予算など議案・陳情の採決</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月2日</span></span><span class="ntitle">本会議（令和8年6月2日）：第2回定例会開会、会期決定と議案上程・陳情採決</span></a>
+<a class="note" style="--c:#0f766e;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">特別委員会・協議会</span><span class="ndate">令和8年6月18日</span></span><span class="ntitle">庁舎等建設及び公共施設マネジメント推進調査特別委員会（令和8年6月18日）：新庁舎建設サウンディング調査の報告と陳情5件の審査</span></a>
+<a class="note" style="--c:#0f766e;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">特別委員会・協議会</span><span class="ndate">令和8年3月17日</span></span><span class="ntitle">庁舎等建設及び公共施設マネジメント推進調査特別委員会（令和8年3月17日）：新庁舎・新福祉会館建設の今後の対応の報告と陳情21件の審査</span></a>
+<a class="note" style="--c:#1d4ed8;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">常任委員会</span><span class="ndate">令和8年6月11日</span></span><span class="ntitle">厚生文教委員会（令和8年6月11日）：子供の権利の日を制定する条例など議案4件の審査と陳情3件・所管事務調査</span></a>
+<a class="note" style="--c:#1d4ed8;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">常任委員会</span><span class="ndate">令和8年4月28日</span></span><span class="ntitle">厚生文教委員会（令和8年4月28日）：学童保育所プール事故関連の陳情など陳情8件の審査と行政報告</span></a>
+<a class="note" style="--c:#b45309;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">予算特別委員会</span><span class="ndate">令和8年6月2日</span></span><span class="ntitle">予算特別委員会（令和8年6月2日）：委員長・副委員長の選出</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月4日</span></span><span class="ntitle">本会議（令和8年6月4日）：第2回定例会の一般質問（防災・防犯・地域づくり等）</span></a>
+<a class="note" style="--c:#7c3aed;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">議会運営委員会</span><span class="ndate">令和8年6月19日</span></span><span class="ntitle">議会運営委員会協議会（令和8年6月19日）：市長送付案件（議案第58号）の取り扱い</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月23日</span></span><span class="ntitle">本会議（令和8年6月23日）：委員会付託議案・陳情の討論採決、議案第58号の即決、意見書・決議の審議</span></a>
+<a class="note" style="--c:#7c3aed;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">議会運営委員会</span><span class="ndate">令和8年6月23日</span></span><span class="ntitle">議会運営委員会（令和8年6月23日）：本会議の討論確認と議員提出議案の取り扱い</span></a>
+<a class="note" style="--c:#7c3aed;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">議会運営委員会</span><span class="ndate">令和8年6月23日</span></span><span class="ntitle">議会運営委員会②（令和8年6月23日）：討論の確認と協議事項の協議</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月5日</span></span><span class="ntitle">本会議（令和8年6月5日）：一般質問（引きこもり支援・共同親権・新庁舎建設ほか）</span></a>
+<a class="note" style="--c:#c2410c;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月8日</span></span><span class="ntitle">本会議（令和8年6月8日）：第2回定例会の一般質問（デジタル化・気候危機対策・子育て支援・平和学習ほか）</span></a>
+<a class="note" style="--c:#0f766e;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">特別委員会・協議会</span><span class="ndate">令和8年6月10日</span></span><span class="ntitle">広報・広聴協議会（令和8年6月10日）：意見交換会の要綱や市民アンケートなどの協議</span></a>
+<a class="note" style="--c:#1d4ed8;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">常任委員会</span><span class="ndate">令和8年6月12日</span></span><span class="ntitle">建設環境委員会（令和8年6月12日）：陳情・所管事務調査の審査と行政報告</span></a>
+<a class="note" style="--c:#1d4ed8;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">常任委員会</span><span class="ndate">令和8年6月15日</span></span><span class="ntitle">総務企画委員会（令和8年6月15日）：陳情・議案・所管事務調査等の審査と行政報告</span></a>
+<a class="note" style="--c:#7c3aed;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">議会運営委員会</span><span class="ndate">令和8年6月16日</span></span><span class="ntitle">議会運営委員会（令和8年6月16日）：議会改革・政務活動費・視察研修などの協議</span></a>
+<a class="note" style="--c:#0f766e;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">特別委員会・協議会</span><span class="ndate">令和8年6月19日</span></span><span class="ntitle">広報・広聴協議会（令和8年6月19日）：市民との意見交換会・市民アンケート・議会だより等の協議</span></a>
+<a class="note" style="--c:#1d4ed8;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">常任委員会</span><span class="ndate">令和8年6月19日</span></span><span class="ntitle">厚生文教委員会（令和8年6月19日）：陳情第116号と陳情第16号の審査</span></a></div>
+
+  <div class="sechd"><h2>比較：色つき用紙版</h2>
+    <span class="hint">用紙自体をカテゴリ色に（＝色分けを強めたい場合）。先頭5枚のみ</span></div>
+  <div class="board"><a class="note" style="--c:#c2410c;--paper:#fdf0e9;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">議案第57号 令和8年度一般会計補正予算（第3回）：第一小学校の代替運動場整備</span></a>
+<a class="note" style="--c:#b45309;--paper:#fdf3e3;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">予算特別委員会</span><span class="ndate">令和8年6月17日</span></span><span class="ntitle">議案第31号 令和8年度一般会計補正予算（第2回）：災害用トイレトレーラーの導入</span></a>
+<a class="note" style="--c:#c2410c;--paper:#fdf0e9;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：今後の財政見通し（新庁舎建設・学校施設長寿命化と市債）</span></a>
+<a class="note" style="--c:#c2410c;--paper:#fdf0e9;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：街路樹・公園樹の維持管理、駅前緑化、コミュニティバス運転士の確保</span></a>
+<a class="note" style="--c:#c2410c;--paper:#fdf0e9;" href="#"><span class="npin"></span><span class="nmeta"><span class="ncat">本会議</span><span class="ndate">令和8年6月9日</span></span><span class="ntitle">一般質問：困難な問題を抱える女性支援法への対応、児童虐待の通報周知、主権者教育</span></a></div>
+</main>
+</body></html>
